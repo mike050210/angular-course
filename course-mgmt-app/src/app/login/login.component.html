@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-center" style="padding: 50px;">
+  <div class="login-box">
+
+      <div class="row">
+        <div class="col">
+            <h6 class="login-header">Login</h6>
+        </div>
+        <div class="col">
+          <label *ngIf="loginError" class="login-error">Wrong email or password</label>
+        </div>
+      </div>
+
+      <div class="container ">
+        <div class="row-2 section">
+          <app-label [label]='emailLabel' [required]='true'></app-label>
+          <input placeholder="example@mail.com" type="email" [(ngModel)]="user.email" class="container"/>
+
+          <app-label [label]='passwordLabel' [required]='true'></app-label>
+          <input placeholder="Enter Password" type="password" [(ngModel)]='user.password' class="container"/>
+        </div>
+        <div class="row section">
+          <div class="col">
+            <a href="#">Forgot password?</a>
+          </div>
+          <div class="col">
+              <button
+                  (click)="validateAndRedirect()"
+                  type="button"
+                  [ngClass]="{'btn float-right':true, 'btn-secondary': (!user.email || !user.password), 'btn-success': (!!user.email && !!user.password)}"
+                  [disabled]="!user.email || !user.password">
+                  Login
+              </button>
+
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+</div>

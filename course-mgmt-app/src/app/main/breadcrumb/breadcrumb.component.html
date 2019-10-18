@@ -1,0 +1,8 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li [ngClass]="{'breadcrumb-item':true, 'active': !item.href}" *ngFor="let item of paths; let i = index">
+        <a *ngIf="!!item.href" href={{item.href}}>{{ item.name }}</a>
+        <label *ngIf="!item.href">{{ item.name }}</label>
+      </li>
+    </ol>
+  </nav>

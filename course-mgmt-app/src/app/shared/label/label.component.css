@@ -1,0 +1,13 @@
+label {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.22px;
+  color: #525462;
+}
+
+.required-box {
+  font-size: 12px;
+  letter-spacing: 0.19px;
+  text-align: right;
+  color: #6c7283;
+}

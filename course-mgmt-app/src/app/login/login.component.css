@@ -1,0 +1,60 @@
+.login-box {
+  padding: 25px;
+  background: white;
+  box-shadow: 0 1px 24px 0 rgba(18, 21, 35, 0.08);
+  border-radius: 6px;
+  width: 368px;
+  height: 298px;
+}
+
+.login-header {
+  font-size: 24px;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  line-height: 1.25;
+  color: #2c2f3c;
+}
+
+
+.inactive-button {
+  width: 68px;
+  height: 36px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 2.57;
+  letter-spacing: -0.1px;
+  color: #a8a9b4;
+}
+
+.section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.login-error {
+
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.19px;
+  text-align: right;
+  color: #ff4e33;
+}
+
+
+input {
+  height: 36px;
+  border-radius: 3px;
+  border: solid 1px #d9dbe3;
+  background-color: #ffffff;
+  color: #525462;
+}
+
+a {
+
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.19px;
+  color: #5681ee;
+}
