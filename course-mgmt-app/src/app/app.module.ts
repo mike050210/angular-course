@@ -1,30 +1,35 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { HeaderModule } from './header/header.module';
-import { FooterModule } from './footer/footer.module';
-import { LoginModule } from './login/login.module';
-import { SharedModule } from './shared/shared.module';
-import { RouterModule } from '@angular/router';
-import { ROUTES } from './app.routes';
-import { MainModule } from './main/main.module';
-import { ValidateLoginService } from './services/validate-login.service';
+import {AppComponent} from './app.component';
+import {LoginModule} from './login/login.module';
+import {SharedModule} from './shared/shared.module';
+import {RouterModule} from '@angular/router';
+import {ROUTES} from './app.routes';
+import {MainModule} from './main/main.module';
+import {AuthenticationService} from './services/authentication.service';
+import {FooterComponent} from './footer/footer.component';
+import {HeaderComponent} from './header/header.component';
+import {HeaderUserComponent} from './header/header-user/header-user.component';
+import {HeaderLogOffComponent} from './header/header-log-off/header-log-off.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    HeaderComponent,
+    HeaderUserComponent,
+    HeaderLogOffComponent,
+    AppComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     SharedModule,
-    HeaderModule,
     LoginModule,
     MainModule,
-    FooterModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [ValidateLoginService],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Course } from '../models/course.model';
+import {Injectable} from '@angular/core';
+import {Course} from '../models/course.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,8 @@ export class CoursesService {
     }
   ];
 
-  constructor() { }
+  constructor() {
+  }
 
   public getAllCourses(): Course[] {
     return this.courses;
