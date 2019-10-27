@@ -1,0 +1,9 @@
+<div>
+  <ul style="list-style-type: none; padding-left: 0;">
+    <li *ngFor="let course of coursesList" >
+      <app-course-item [course]="course"
+                       (editedCourse)="onEditedCourse($event)"
+                       (deletedCourse)="onDeletedCourse($event)"></app-course-item>
+    </li>
+  </ul>
+</div>

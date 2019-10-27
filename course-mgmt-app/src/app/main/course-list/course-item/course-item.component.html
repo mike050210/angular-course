@@ -1,0 +1,41 @@
+<div class="item-container">
+  <div class="card card-body shadow-sm">
+    <div class="row">
+      <div class="col-9">
+        <h5 class="card-title">{{course.title}}</h5>
+      </div>
+      <div class="col-3">
+        <p class="card-text">
+          <span class="icon-margin">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
+            <small class="text-muted">{{course.duration | timeConverter}}</small>
+          </span>
+          <span class="icon-margin">
+            <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
+            <small class="text-muted">{{course.creationDate | date:'MM-dd-yyyy'}}</small>
+          </span>
+          <span class="lang">
+            <small class="text-muted ">{{course.language}}</small>
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <p class="card-text">
+          {{course.description}}
+        </p>
+
+      </div>
+      <div class="col-3 text-right">
+        <button type="button" class="btn btn-primary btn-sm btn-margin" (click)="editCourse()">
+          <i class="fa fa-pencil" aria-hidden="true"></i>&ensp;Edit
+        </button>
+        <button type="button" class="btn btn-primary btn-sm btn-margin" (click)="deleteCourse()">
+          <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,5 +1,5 @@
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
+  <ol class="breadcrumb course-breadcrumb">
     <li [ngClass]="{'breadcrumb-item':true, 'active': !item.href}" *ngFor="let item of paths; let i = index">
       <a *ngIf="item.href; else elsePath" href={{item.href}}>{{ item.name }}</a>
       <ng-template #elsePath><label>{{ item.name }}</label></ng-template>

@@ -4,4 +4,6 @@ export interface Course {
   creationDate: Date;
   duration: number;
   description: string;
+  language: string;
+  thumbnailUrl: string;
 }

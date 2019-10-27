@@ -1,1 +1,21 @@
-<app-breadcrumb [paths]="paths"></app-breadcrumb>
+<div class="main">
+  <app-breadcrumb [paths]="paths"></app-breadcrumb>
+  <div class="container">
+    <app-search-control></app-search-control>
+
+    <div class="add-course">
+      <button type="button" class="btn btn-primary" (click)="addNewCourse()">
+        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add course
+      </button>
+    </div>
+
+    <app-course-list></app-course-list>
+
+    <button type="button" class="btn btn-light btn-lg btn-block load-more shadow-sm"
+            (click)="loadMore()">{{loadMoreLabel | uppercase}}</button>
+
+
+  </div>
+
+
+</div>

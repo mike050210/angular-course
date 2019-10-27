@@ -1,6 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
 body {
   font-family: 'Source Sans Pro';
 }
 
+input {
+  height: 36px;
+  border-radius: 3px;
+  border: solid 1px #d9dbe3;
+  background-color: white;
+  color: #525462;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #d9dbe3;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #d9dbe3;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #d9dbe3;
+}

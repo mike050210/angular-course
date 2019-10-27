@@ -9,5 +9,14 @@ import {Path} from '../models/paths.model';
 export class MainComponent {
 
   paths = <Path[]>[{name: 'Courses'}];
+  loadMoreLabel = 'Load More';
+
+  addNewCourse() {
+    console.log('Adding a new course');
+  }
+
+  loadMore() {
+    console.log('Loading more courses');
+  }
 
 }
