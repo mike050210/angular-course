@@ -6,23 +6,30 @@ import {Course} from '../../../models/course.model';
   templateUrl: './course-item.component.html',
   styleUrls: ['./course-item.component.css']
 })
-export class CourseItemComponent {
+export class CourseItemComponent implements OnInit {
 
   @Input()
   course: Course;
 
   @Output()
-  editedCourse = new EventEmitter<string>();
+  edit = new EventEmitter<string>();
 
   @Output()
-  deletedCourse = new EventEmitter<string>();
+  delete = new EventEmitter<string>();
+
+  ngOnInit() {
+    if (!this.course) {
+      throw new Error('Error: Mandatory input value "course" is not provided');
+    }
+  }
+
 
   editCourse() {
-    this.editedCourse.emit(this.course.id);
+    this.edit.emit(this.course.id);
   }
 
   deleteCourse() {
-    this.deletedCourse.emit(this.course.id);
+    this.delete.emit(this.course.id);
   }
 
 }

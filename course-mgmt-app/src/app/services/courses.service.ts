@@ -7,7 +7,7 @@ import {Course} from '../models/course.model';
 
 export class CoursesService {
 
-  courses = <Course[]>[
+  courses: Course[] = [
     {
       id: 'ng8',
       title: 'Angular 8 for dummies',
@@ -26,6 +26,7 @@ export class CoursesService {
       language: 'Sp',
       thumbnailUrl: ''
     },
+    null,
     {
       id: 'es6',
       title: 'ECMAScript 6',

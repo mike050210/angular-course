@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
+import { CoursesComponent } from './main/courses.component';
 
 export const ROUTES: Route[] = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'courses', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: MainComponent }
+  { path: 'courses', component: CoursesComponent }
 ];

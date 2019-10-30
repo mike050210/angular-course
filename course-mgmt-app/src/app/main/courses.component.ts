@@ -3,10 +3,10 @@ import {Path} from '../models/paths.model';
 
 @Component({
   selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  templateUrl: './courses.component.html',
+  styleUrls: ['./courses.component.css']
 })
-export class MainComponent {
+export class CoursesComponent {
 
   paths = <Path[]>[{name: 'Courses'}];
   loadMoreLabel = 'Load More';

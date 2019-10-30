@@ -6,7 +6,7 @@ import {LoginModule} from './login/login.module';
 import {SharedModule} from './shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {ROUTES} from './app.routes';
-import {MainModule} from './main/main.module';
+import {CoursesModule} from './main/courses.module';
 import {AuthenticationService} from './services/authentication.service';
 import {FooterComponent} from './footer/footer.component';
 import {HeaderComponent} from './header/header.component';
@@ -25,7 +25,7 @@ import {HeaderLogOffComponent} from './header/header-log-off/header-log-off.comp
     BrowserModule,
     SharedModule,
     LoginModule,
-    MainModule,
+    CoursesModule,
     RouterModule.forRoot(ROUTES)
   ],
   providers: [AuthenticationService],

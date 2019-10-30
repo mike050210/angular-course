@@ -9,7 +9,7 @@ import {Course} from '../../models/course.model';
 })
 export class CourseListComponent implements OnInit {
 
-  coursesList = <Course[]>[];
+  courses: Course[] = [];
 
   constructor(private coursesService: CoursesService) {
     console.log('Executing component constructor');
@@ -17,14 +17,14 @@ export class CourseListComponent implements OnInit {
 
   ngOnInit() {
     console.log('Executing ngOnInit hook');
-    this.coursesList = this.coursesService.getAllCourses();
+    this.courses = this.coursesService.getAllCourses();
   }
 
-  onEditedCourse(courseId: string) {
+  editCourse(courseId: string) {
     console.log('Edited course in parent: ' + courseId);
   }
 
-  onDeletedCourse(courseId: string) {
+  deleteCourse(courseId: string) {
     console.log('Deleted course in parent: ' + courseId);
   }
 
