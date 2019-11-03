@@ -36,7 +36,7 @@ export class AuthenticationService {
     return this.user.firstName + ' ' + this.user.lastName;
   }
 
-  public isUserAlreadyLoggedin(): boolean {
+  public isUserAlreadyLoggedIn(): boolean {
     return this.loggedIn;
   }
 }

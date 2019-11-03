@@ -17,14 +17,14 @@ export class LoginComponent {
 
   user = <User>{};
 
-  constructor(private validateLoginService: AuthenticationService, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
     this.emailLabel = 'E-Mail:';
     this.passwordLabel = 'Password:';
   }
 
   validateAndRedirect() {
 
-    const isValid = this.validateLoginService.validateUser(this.user);
+    const isValid = this.authenticationService.validateUser(this.user);
 
     if (isValid) {
       this.loginError = false;

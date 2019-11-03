@@ -1,6 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CourseListComponent } from './course-list.component';
+import {CourseListComponent} from './course-list.component';
+import {CourseItemComponent} from './course-item/course-item.component';
+import {SharedModule} from '../../shared/shared.module';
 
 describe('CourseListComponent', () => {
   let component: CourseListComponent;
@@ -8,9 +10,10 @@ describe('CourseListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CourseListComponent ]
+      declarations: [CourseListComponent, CourseItemComponent],
+      imports: [SharedModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,4 +25,19 @@ describe('CourseListComponent', () => {
   it('is created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('edits a course', () => {
+    console.log = jasmine.createSpy();
+    component.editCourse('abc');
+    expect(console.log).toHaveBeenCalled();
+
+  });
+
+  it('deletes a course', () => {
+    console.log = jasmine.createSpy();
+    component.deleteCourse('abc');
+    expect(console.log).toHaveBeenCalled();
+  });
+
+
 });

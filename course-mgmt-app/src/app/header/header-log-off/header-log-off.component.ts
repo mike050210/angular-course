@@ -14,7 +14,7 @@ export class HeaderLogOffComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.validateLoginService.isUserAlreadyLoggedin();
+    this.isLoggedIn = this.validateLoginService.isUserAlreadyLoggedIn();
   }
 
 }
