@@ -28,7 +28,7 @@ export class LoginComponent {
 
     if (isValid) {
       this.loginError = false;
-      this.router.navigate(['home']);
+      this.router.navigate(['courses']);
     } else {
       this.user.id = '';
       this.user.password = '';

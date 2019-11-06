@@ -35,16 +35,16 @@ describe('CourseItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('raises the edits event when clicked', () => {
+  it('raises the edits event when clicked', async(() => {
 
     component.course.id = 'abc';
     component.edit.subscribe((courseId: String) => expect(courseId).toBe('abc'));
     component.editCourse();
 
-  });
+  }));
 
-  it('raises the delete event when clicked', () => {
+  it('raises the delete event when clicked', async(() => {
     component.delete.subscribe((courseId: String) => expect(courseId).toBe('abc'));
     component.deleteCourse();
-  });
+  }));
 });

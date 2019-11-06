@@ -5,18 +5,25 @@ import {SharedModule} from '../shared/shared.module';
 import {FormsModule} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication.service';
 import {RouterTestingModule} from '@angular/router/testing';
+import {CoursesComponent} from '../main/courses.component';
+import {CoursesModule} from '../main/courses.module';
 
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let testBedAuthService: AuthenticationService;
+  let authService: AuthenticationService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
       providers: [AuthenticationService],
-      imports: [FormsModule, SharedModule, RouterTestingModule]
+      imports: [
+        CoursesModule,
+        FormsModule,
+        SharedModule,
+        RouterTestingModule.withRoutes([{path: 'courses', component: CoursesComponent}])
+      ]
     })
       .compileComponents();
   }));
@@ -25,13 +32,9 @@ describe('LoginComponent', () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
 
-    testBedAuthService = TestBed.get(AuthenticationService);
+    authService = TestBed.get(AuthenticationService);
 
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    testBedAuthService = null;
   });
 
   it('is created', () => {
@@ -39,14 +42,14 @@ describe('LoginComponent', () => {
   });
 
   it('is valid authentication', () => {
-    spyOn(testBedAuthService, 'validateUser').and.returnValue(true);
+    spyOn(authService, 'validateUser').and.returnValue(true);
 
     component.validateAndRedirect();
     expect(component.loginError).toBeFalsy();
   });
 
   it('is invalid authentication', () => {
-    spyOn(testBedAuthService, 'validateUser').and.returnValue(false);
+    spyOn(authService, 'validateUser').and.returnValue(false);
 
     component.validateAndRedirect();
     expect(component.loginError).toBeTruthy();

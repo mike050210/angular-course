@@ -1,12 +1,9 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CoursesComponent} from './courses.component';
-import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
-import {SearchControlComponent} from './search-control/search-control.component';
-import {CourseListComponent} from './course-list/course-list.component';
 import {FormsModule} from '@angular/forms';
-import {CourseItemComponent} from './course-list/course-item/course-item.component';
 import {SharedModule} from '../shared/shared.module';
+import {CoursesModule} from './courses.module';
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
@@ -14,13 +11,7 @@ describe('CoursesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CoursesComponent,
-        BreadcrumbComponent,
-        SearchControlComponent,
-        CourseListComponent,
-        CourseItemComponent],
-      imports: [FormsModule, SharedModule]
+      imports: [CoursesModule, FormsModule, SharedModule]
     })
       .compileComponents();
   }));
@@ -36,14 +27,14 @@ describe('CoursesComponent', () => {
   });
 
   it('add new course', () => {
-    console.log = jasmine.createSpy();
-    component.addNewCourse();
-    expect(console.log).toHaveBeenCalled();
+    const logAddCourse = spyOn(console, 'log');
+    component.loadMore();
+    expect(logAddCourse).toHaveBeenCalled();
   });
 
   it('loads more courses', () => {
-    console.log = jasmine.createSpy();
+    const logMoreCourses = spyOn(console, 'log');
     component.loadMore();
-    expect(console.log).toHaveBeenCalled();
+    expect(logMoreCourses).toHaveBeenCalled();
   });
 });

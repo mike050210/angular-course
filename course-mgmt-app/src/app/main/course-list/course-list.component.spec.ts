@@ -27,16 +27,16 @@ describe('CourseListComponent', () => {
   });
 
   it('edits a course', () => {
-    console.log = jasmine.createSpy();
+    const editLogSpy = spyOn(console, 'log');
     component.editCourse('abc');
-    expect(console.log).toHaveBeenCalled();
+    expect(editLogSpy).toHaveBeenCalled();
 
   });
 
   it('deletes a course', () => {
-    console.log = jasmine.createSpy();
+    const deleteLogSpy = spyOn(console, 'log');
     component.deleteCourse('abc');
-    expect(console.log).toHaveBeenCalled();
+    expect(deleteLogSpy).toHaveBeenCalled();
   });
 
 
