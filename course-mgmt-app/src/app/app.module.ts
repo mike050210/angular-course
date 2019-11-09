@@ -6,7 +6,7 @@ import {LoginModule} from './login/login.module';
 import {SharedModule} from './shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {ROUTES} from './app.routes';
-import {CoursesModule} from './main/courses.module';
+import {CoursesModule} from './courses/courses.module';
 import {AuthenticationService} from './services/authentication.service';
 import {FooterComponent} from './footer/footer.component';
 import {HeaderComponent} from './header/header.component';
