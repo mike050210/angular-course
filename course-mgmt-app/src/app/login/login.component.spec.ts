@@ -5,8 +5,8 @@ import {SharedModule} from '../shared/shared.module';
 import {FormsModule} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication.service';
 import {RouterTestingModule} from '@angular/router/testing';
-import {CoursesComponent} from '../main/courses.component';
-import {CoursesModule} from '../main/courses.module';
+import {CoursesComponent} from '../courses/courses.component';
+import {CoursesModule} from '../courses/courses.module';
 
 
 describe('LoginComponent', () => {

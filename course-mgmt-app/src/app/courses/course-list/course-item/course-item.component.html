@@ -1,8 +1,13 @@
 <div class="item-container">
-  <div class="card card-body shadow-sm">
+  <div class="card card-body shadow-sm" [appTimeBasedBorder]="course.creationDate">
     <div class="row">
       <div class="col-9">
-        <h5 class="card-title">{{course.title}}</h5>
+        <h6 class="card-title">
+          {{course.title | uppercase}}
+          <span style="color: gold" *ngIf="course.rating === 5">
+            <i class="fa fa-star" aria-hidden="true"></i>
+          </span>
+        </h6>
       </div>
       <div class="col-3">
         <p class="card-text">
@@ -12,7 +17,7 @@
           </span>
           <span class="icon-margin">
             <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
-            <small class="text-muted">{{course.creationDate | date:'MM-dd-yyyy'}}</small>
+            <small class="text-muted">{{course.creationDate | date:'dd MMM, yyyy'}}</small>
           </span>
           <span class="lang">
             <small class="text-muted ">{{course.language}}</small>

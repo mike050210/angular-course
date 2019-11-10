@@ -1,6 +1,6 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
-import {CoursesService} from '../../services/courses.service';
+import {Component, Input, OnInit} from '@angular/core';
 import {Course} from '../../models/course.model';
+import {SortOrder} from '../../enums/sort-order.enum';
 
 @Component({
   selector: 'app-course-list',
@@ -9,15 +9,17 @@ import {Course} from '../../models/course.model';
 })
 export class CourseListComponent implements OnInit {
 
-  courses: Course[] = [];
+  @Input()
+  courses: Course[];
 
-  constructor(private coursesService: CoursesService) {
+  order: SortOrder = SortOrder.Desc;
+
+  constructor() {
     console.log('Executing component constructor');
   }
 
   ngOnInit() {
     console.log('Executing ngOnInit hook');
-    this.courses = this.coursesService.getAllCourses();
   }
 
   editCourse(courseId: string) {

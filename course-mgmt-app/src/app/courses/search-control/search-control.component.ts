@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-search-control',
@@ -9,8 +9,11 @@ export class SearchControlComponent {
 
   searchText = '';
 
-  searchCourse() {
-    console.log(this.searchText);
+  @Output()
+  search = new EventEmitter<string>();
+
+  searchCourses() {
+    this.search.emit(this.searchText);
   }
 
 

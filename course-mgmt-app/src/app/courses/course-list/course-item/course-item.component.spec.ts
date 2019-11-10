@@ -25,7 +25,8 @@ describe('CourseItemComponent', () => {
       duration: 100,
       description: 'Course description',
       language: 'Es',
-      thumbnailUrl: null
+      thumbnailUrl: null,
+      rating: 5
     };
 
     fixture.detectChanges();

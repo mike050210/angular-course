@@ -11,39 +11,49 @@ export class CoursesService {
     {
       id: 'ng8',
       title: 'Angular 8 for dummies',
-      creationDate: new Date(2019, 5, 23),
+      creationDate: new Date(2019, 9, 26),
       duration: 120,
       description: 'From Setup to Deployment, this course covers it all! You\'ll learn all about Components, Directives, Services, etc.',
       language: 'En',
-      thumbnailUrl: ''
+      thumbnailUrl: '',
+      rating: 3
     },
     {
       id: 'java11',
       title: 'Java 11 advanced',
-      creationDate: new Date(2019, 2, 14),
+      creationDate: new Date(2019, 10, 9),
       duration: 180,
       description: 'Discover the future with the new functionalities of Java 11',
       language: 'Sp',
-      thumbnailUrl: ''
+      thumbnailUrl: '',
+      rating: 5
     },
     null,
     {
-      id: 'es6',
-      title: 'ECMAScript 6',
-      creationDate: new Date(1986, 0, 13),
+      id: 'es10',
+      title: 'ECMAScript 10',
+      creationDate: new Date(2020, 1, 14),
       duration: 92,
       description: 'Setting Up a Babel Project. Using let Variables. Using Destructuring. Using Arrow Functions. Setting Up Webpack. ' +
         'Using Modules. Using Classes. Using Promises.',
       language: 'Ru',
-      thumbnailUrl: ''
+      thumbnailUrl: '',
+      rating: 4
+    },
+    {
+      id: 'python',
+      title: 'Python Tutorial',
+      creationDate: new Date(1986, 0, 13),
+      duration: 113,
+      description: 'This course is a great introduction to both fundamental programming concepts and the Python programming language',
+      language: 'En',
+      thumbnailUrl: '',
+      rating: 5
     }
   ];
 
-  constructor() {
-  }
-
   public getAllCourses(): Course[] {
-    return this.courses;
+    return this.courses.filter(course => course);
   }
 
   public addCourse(course: Course): void {

@@ -4,21 +4,27 @@ import {CoursesComponent} from './courses.component';
 import {FormsModule} from '@angular/forms';
 import {SharedModule} from '../shared/shared.module';
 import {CoursesModule} from './courses.module';
+import {AuthenticationService} from '../services/authentication.service';
+import {CoursesService} from '../services/courses.service';
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
   let fixture: ComponentFixture<CoursesComponent>;
+  let coursesService: CoursesService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [AuthenticationService],
       imports: [CoursesModule, FormsModule, SharedModule]
     })
       .compileComponents();
   }));
 
+
   beforeEach(() => {
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.componentInstance;
+    coursesService = TestBed.get(AuthenticationService);
     fixture.detectChanges();
   });
 

@@ -6,4 +6,5 @@ export interface Course {
   description: string;
   language: string;
   thumbnailUrl: string;
+  rating: number;
 }
