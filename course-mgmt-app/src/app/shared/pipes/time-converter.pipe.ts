@@ -6,9 +6,9 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class TimeConverterPipe implements PipeTransform {
 
   transform(timeInMinutes: number): string {
-    return Math.floor(timeInMinutes / 60)
-      + 'h '
-      + this.addTrailingZeros(timeInMinutes % 60) + 'min';
+    const hours = Math.floor(timeInMinutes / 60);
+    const min = this.addTrailingZeros(timeInMinutes % 60) + 'min';
+    return hours > 0 ? hours + 'h ' + min : min;
   }
 
   private addTrailingZeros(value: number) {
