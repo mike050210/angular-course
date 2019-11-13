@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Path} from '../models/paths.model';
 import {Course} from '../models/course.model';
 import {CoursesService} from '../services/courses.service';
-import {SearchCoursePipe} from '../shared/pipes/search-course.pipe';
+import {FilterCoursesPipe} from '../shared/pipes/filter-courses.pipe';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +13,7 @@ export class CoursesComponent implements OnInit {
 
   allCourses: Course[] = [];
   filteredCourses: Course[] = [];
-  paths = <Path[]>[{name: 'Courses'}];
+  paths: Path[] = [{name: 'Courses', href: ''}];
   loadMoreLabel = 'Load More';
 
   constructor(private coursesService: CoursesService) {
@@ -24,9 +24,9 @@ export class CoursesComponent implements OnInit {
     this.filteredCourses = this.allCourses;
   }
 
-  filterCourses(searchWords: string) {
-    if (searchWords) {
-      this.filteredCourses = new SearchCoursePipe().transform(this.allCourses, searchWords);
+  filterCourses(filter: string) {
+    if (filter) {
+      this.filteredCourses = new FilterCoursesPipe().transform(this.allCourses, filter);
     } else {
       this.filteredCourses = this.allCourses;
     }

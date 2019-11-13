@@ -6,9 +6,9 @@ import {SortOrder} from '../../enums/sort-order.enum';
 })
 export class OrderByPipe implements PipeTransform {
 
-  transform(values: any[], field: string, order = SortOrder.Asc): any {
+  transform<T>(values: T[], field: string, order = SortOrder.Asc): T[] {
     if (values) {
-      values = values.filter(course => course);
+      values = values.filter(value => value);
     } else {
       return values;
     }
@@ -16,10 +16,10 @@ export class OrderByPipe implements PipeTransform {
     if (values.length && values[0].hasOwnProperty(field)) {
       values.sort((a: any, b: any) => {
 
-        if (order === SortOrder.Desc) {
-          return this.compare(b[`${field}`], a[`${field}`]);
+        if (order === SortOrder.Asc) {
+          return this.compare(a[field], b[field]);
         } else {
-          return this.compare(a[`${field}`], b[`${field}`]);
+          return this.compare(b[field], a[field]);
         }
       });
 
@@ -27,14 +27,8 @@ export class OrderByPipe implements PipeTransform {
     return values;
   }
 
-  compare(valueA: any, valueB: any) {
-    if (valueA < valueB) {
-      return -1;
-    } else if (valueA > valueB) {
-      return 1;
-    } else {
-      return 0;
-    }
+  compare<T>(valueA: T, valueB: T) {
+    return (valueA < valueB) ? -1 : 1;
   }
 
 }

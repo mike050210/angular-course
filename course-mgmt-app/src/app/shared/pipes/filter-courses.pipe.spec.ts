@@ -1,12 +1,12 @@
-import {SearchCoursePipe} from './search-course.pipe';
+import {FilterCoursesPipe} from './filter-courses.pipe';
 import {Course} from '../../models/course.model';
 
-describe('SearchCoursePipe', () => {
-  let searchCoursePipe: SearchCoursePipe;
+describe('FilterCoursesPipe', () => {
+  let filterCoursesPipe: FilterCoursesPipe;
   let courses: Course[];
 
   beforeEach(() => {
-    searchCoursePipe = new SearchCoursePipe();
+    filterCoursesPipe = new FilterCoursesPipe();
     courses = [
       {
         id: '123',
@@ -32,7 +32,7 @@ describe('SearchCoursePipe', () => {
   });
 
   it('creates an instance', () => {
-    expect(searchCoursePipe).toBeTruthy();
+    expect(filterCoursesPipe).toBeTruthy();
   });
 
   it('filters courses', () => {
@@ -48,12 +48,12 @@ describe('SearchCoursePipe', () => {
         rating: 1
       }];
 
-    expect(searchCoursePipe.transform(courses, 'ANOTHER').length).toBeGreaterThan(0);
-    expect(searchCoursePipe.transform(courses, 'detailed description')).toEqual(expected);
+    expect(filterCoursesPipe.transform(courses, 'ANOTHER').length).toBeGreaterThan(0);
+    expect(filterCoursesPipe.transform(courses, 'detailed description')).toEqual(expected);
   });
 
   it('filters courses - Not found', () => {
-    expect(searchCoursePipe.transform(courses, 'non existing course').length).toBe(0);
-    expect(searchCoursePipe.transform(null, 'non existing course').length).toBe(0);
+    expect(filterCoursesPipe.transform(courses, 'non existing course').length).toBe(0);
+    expect(filterCoursesPipe.transform(null, 'non existing course').length).toBe(0);
   });
 });

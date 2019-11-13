@@ -4,7 +4,7 @@
       <div class="col-9">
         <h6 class="card-title">
           {{course.title | uppercase}}
-          <span style="color: gold" *ngIf="course.rating === 5">
+          <span class="rating-star" *ngIf="course.rating === 5">
             <i class="fa fa-star" aria-hidden="true"></i>
           </span>
         </h6>

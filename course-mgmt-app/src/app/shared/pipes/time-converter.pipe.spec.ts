@@ -13,7 +13,8 @@ describe('TimeConverterPipe', () => {
   });
 
   it('transforms minutes to hh h mm m format', () => {
-    expect(pipe.transform(120)).toEqual('02h 00min');
-    expect(pipe.transform(91)).toEqual('01h 31min');
+    expect(pipe.transform(120)).toEqual('2h 00min');
+    expect(pipe.transform(91)).toEqual('1h 31min');
+    expect(pipe.transform(59)).toEqual('0h 59min');
   });
 });

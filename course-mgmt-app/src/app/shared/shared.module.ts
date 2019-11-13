@@ -4,15 +4,15 @@ import {LabelComponent} from './label/label.component';
 import {TimeConverterPipe} from './pipes/time-converter.pipe';
 import {TimeBasedBorderDirective} from './directives/time-based-border.directive';
 import {OrderByPipe} from './pipes/order-by.pipe';
-import {SearchCoursePipe} from './pipes/search-course.pipe';
+import {FilterCoursesPipe} from './pipes/filter-courses.pipe';
 
 
 @NgModule({
-  declarations: [LabelComponent, TimeConverterPipe, TimeBasedBorderDirective, OrderByPipe, SearchCoursePipe],
+  declarations: [LabelComponent, TimeConverterPipe, TimeBasedBorderDirective, OrderByPipe, FilterCoursesPipe],
   imports: [
     CommonModule
   ],
-  exports: [LabelComponent, TimeConverterPipe, OrderByPipe, SearchCoursePipe, TimeBasedBorderDirective]
+  exports: [LabelComponent, TimeConverterPipe, OrderByPipe, FilterCoursesPipe, TimeBasedBorderDirective]
 })
 export class SharedModule {
 }
