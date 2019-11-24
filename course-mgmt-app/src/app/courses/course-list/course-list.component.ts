@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Course} from '../../models/course.model';
 import {SortOrder} from '../../enums/sort-order.enum';
 
@@ -14,6 +14,12 @@ export class CourseListComponent implements OnInit {
 
   order: SortOrder = SortOrder.Desc;
 
+  @Output()
+  edit = new EventEmitter<string>();
+
+  @Output()
+  delete = new EventEmitter<string>();
+
   constructor() {
     console.log('Executing component constructor');
   }
@@ -23,11 +29,11 @@ export class CourseListComponent implements OnInit {
   }
 
   editCourse(courseId: string) {
-    console.log('Edited course in parent: ' + courseId);
+    this.edit.emit(courseId);
   }
 
   deleteCourse(courseId: string) {
-    console.log('Deleted course in parent: ' + courseId);
+    this.delete.emit(courseId);
   }
 
 }

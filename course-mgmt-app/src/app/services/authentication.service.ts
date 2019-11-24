@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { User } from '../models/user-login.model';
+import {Injectable} from '@angular/core';
+import {User} from '../models/user-login.model';
+import {stringify} from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -27,16 +28,26 @@ export class AuthenticationService {
 
 
   public validateUser(userLogin: User): boolean {
-    this.user =  this.users.find(user => user.id === userLogin.id && user.password === userLogin.password);
-    this.loggedIn = !!this.user;
+    this.user = this.users.find(user => user.id === userLogin.id && user.password === userLogin.password);
+    if (this.user) {
+      localStorage.setItem('username', this.user.firstName + ' ' + this.user.lastName);
+      localStorage.setItem('user', stringify(this.user));
+      this.loggedIn = true;
+    }
     return this.loggedIn;
+  }
+
+  public logout(): void {
+    this.loggedIn = false;
+    localStorage.removeItem('user');
+    localStorage.removeItem('username');
   }
 
   public getLoginUsername(): string {
     return this.user.firstName + ' ' + this.user.lastName;
   }
 
-  public isUserAlreadyLoggedIn(): boolean {
-    return this.loggedIn;
+  public isAuthenticated(): boolean {
+    return !!localStorage.getItem('user');
   }
 }

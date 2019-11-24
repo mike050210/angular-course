@@ -7,7 +7,7 @@ import {Course} from '../models/course.model';
 
 export class CoursesService {
 
-  courses: Course[] = [
+  static courses: Course[] = [
     {
       id: 'ng8',
       title: 'Angular 8 for dummies',
@@ -53,10 +53,41 @@ export class CoursesService {
   ];
 
   public getAllCourses(): Course[] {
-    return this.courses.filter(course => course);
+    return CoursesService.courses.filter(course => course);
   }
 
-  public addCourse(course: Course): void {
-    this.courses.push(course);
+  public createCourse(course: Course): void {
+    CoursesService.courses.push(course);
+  }
+
+  public getCourseById(courseId: String): Course {
+    const courseItem = CoursesService.courses.find(course => course.id === courseId);
+    return courseItem ? courseItem : null;
+  }
+
+  public updateCourse(course: Course): boolean {
+    const courseIdx = CoursesService.courses.findIndex(courseToUpdate => course.id === courseToUpdate.id);
+    if (courseIdx !== -1) {
+      CoursesService.courses[courseIdx].description = course.description;
+      CoursesService.courses[courseIdx].title = course.title;
+      CoursesService.courses[courseIdx].rating = course.rating;
+      CoursesService.courses[courseIdx].creationDate = course.creationDate;
+      CoursesService.courses[courseIdx].language = course.language;
+      CoursesService.courses[courseIdx].duration = course.duration;
+      CoursesService.courses[courseIdx].thumbnailUrl = course.thumbnailUrl;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public deleteCourse(courseId: String): boolean {
+    const courseIdx = CoursesService.courses.findIndex(course => course !== null && courseId === course.id);
+    if (courseIdx !== -1) {
+      CoursesService.courses.splice(courseIdx, 1);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

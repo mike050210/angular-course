@@ -17,6 +17,7 @@ export class CourseItemComponent implements OnInit {
   @Output()
   delete = new EventEmitter<string>();
 
+
   ngOnInit() {
     if (!this.course) {
       throw new Error('Error: Mandatory input value "course" is not provided');
@@ -29,7 +30,10 @@ export class CourseItemComponent implements OnInit {
   }
 
   deleteCourse() {
-    this.delete.emit(this.course.id);
+    const delConfirmation = confirm('Are you sure you want to delete "' + this.course.title + '"?');
+    if (delConfirmation) {
+      this.delete.emit(this.course.id);
+    }
   }
 
 }

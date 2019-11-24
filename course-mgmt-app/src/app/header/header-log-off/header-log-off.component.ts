@@ -1,20 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthenticationService} from 'src/app/services/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header-log-off',
   templateUrl: './header-log-off.component.html',
   styleUrls: ['./header-log-off.component.css']
 })
-export class HeaderLogOffComponent implements OnInit {
+export class HeaderLogOffComponent {
 
-  private isLoggedIn = false;
+  @Output()
+  logout = new EventEmitter<String>();
 
-  constructor(private validateLoginService: AuthenticationService) {
+  constructor() {
   }
 
-  ngOnInit() {
-    this.isLoggedIn = this.validateLoginService.isUserAlreadyLoggedIn();
+  logoutSession() {
+    this.logout.emit('logout');
   }
 
 }

@@ -1,9 +1,9 @@
 <div class="header-bg row justify-content-md-center">
   <div class="col-8">
-      <img src="../../assets/images/logo.svg"/>
+    <img src="../../assets/images/logo.svg"/>
   </div>
-  <div class="col-2">
-        <app-header-user></app-header-user>
-        <app-header-log-off></app-header-log-off>
+  <div class="col-2" *ngIf="isLoggedIn">
+    <app-header-user username="{{username}}"></app-header-user>
+    <app-header-log-off (logout)="logoutSession()"></app-header-log-off>
   </div>
 </div>
