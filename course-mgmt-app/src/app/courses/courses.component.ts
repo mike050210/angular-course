@@ -11,30 +11,26 @@ import {Router} from '@angular/router';
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
-
-  allCourses: Course[] = [];
   filteredCourses: Course[] = [];
   paths: Path[] = [{name: 'Courses', href: ''}];
   loadMoreLabel = 'Load More';
+  filtered = false;
 
-  constructor(private coursesService: CoursesService, private router: Router) {
+  constructor(private readonly coursesService: CoursesService, private readonly router: Router) {
   }
 
   ngOnInit(): void {
     if (!localStorage.getItem('username')) {
       this.router.navigate(['login']);
     } else {
-      this.allCourses = this.coursesService.getAllCourses();
-      this.filteredCourses = this.allCourses;
+      this.filteredCourses = this.coursesService.getAllCourses();
     }
   }
 
   filterCourses(filter: string) {
-    if (filter) {
-      this.filteredCourses = new FilterCoursesPipe().transform(this.allCourses, filter);
-    } else {
-      this.filteredCourses = this.allCourses;
-    }
+    this.filteredCourses = new FilterCoursesPipe().transform(this.coursesService.getAllCourses(), filter);
+    this.filtered = !!filter;
+
   }
 
   addNewCourse() {
@@ -46,13 +42,12 @@ export class CoursesComponent implements OnInit {
   }
 
   editCourse(courseId: string) {
-    console.log('Edited course in parent: ' + courseId);
+    console.log(`Edited course in parent: ${courseId}`);
   }
 
   deleteCourse(courseId: string) {
     if (this.coursesService.deleteCourse(courseId)) {
-      this.allCourses = this.coursesService.getAllCourses();
-      this.filteredCourses = this.allCourses;
+      this.filteredCourses = this.coursesService.getAllCourses();
     }
   }
 

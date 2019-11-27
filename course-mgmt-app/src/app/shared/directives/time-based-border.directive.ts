@@ -7,7 +7,7 @@ export class TimeBasedBorderDirective implements OnInit {
 
   @Input('appTimeBasedBorder') creationDate: Date;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private readonly elementRef: ElementRef) {
   }
 
   ngOnInit(): void {

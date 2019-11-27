@@ -30,7 +30,7 @@ export class CourseItemComponent implements OnInit {
   }
 
   deleteCourse() {
-    const delConfirmation = confirm('Are you sure you want to delete "' + this.course.title + '"?');
+    const delConfirmation = confirm(`Are you sure you want to delete "${this.course.title}"?`);
     if (delConfirmation) {
       this.delete.emit(this.course.id);
     }

@@ -17,7 +17,7 @@ export class LoginComponent {
 
   user = <User>{};
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private readonly authenticationService: AuthenticationService, private readonly router: Router) {
     this.emailLabel = 'E-Mail:';
     this.passwordLabel = 'Password:';
   }

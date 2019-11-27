@@ -1,8 +1,8 @@
-<div class="header-bg row justify-content-md-center">
-  <div class="col-8">
+<div class="header-bg row">
+  <div class="col">
     <img src="../../assets/images/logo.svg"/>
   </div>
-  <div class="col-2" *ngIf="isLoggedIn">
+  <div class="col header-left-control" *ngIf="isLoggedIn">
     <app-header-user username="{{username}}"></app-header-user>
     <app-header-log-off (logout)="logoutSession()"></app-header-log-off>
   </div>

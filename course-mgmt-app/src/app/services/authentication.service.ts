@@ -31,7 +31,7 @@ export class AuthenticationService {
     this.user = this.users.find(user => user.id === userLogin.id && user.password === userLogin.password);
     if (this.user) {
       localStorage.setItem('username', this.user.firstName + ' ' + this.user.lastName);
-      localStorage.setItem('user', stringify(this.user));
+      localStorage.setItem('user', JSON.stringify(this.user));
       this.loggedIn = true;
     }
     return this.loggedIn;
