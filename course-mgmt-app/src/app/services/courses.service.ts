@@ -65,10 +65,10 @@ export class CoursesService {
     return courseItem ? courseItem : null;
   }
 
-  public updateCourse(course: Course): boolean {
-    const courseIdx = this.courses.findIndex(courseToUpdate => course.id === courseToUpdate.id);
+  public updateCourse(courseUpdate: Partial<Course>): boolean {
+    const courseIdx = this.courses.findIndex(course => courseUpdate.id === course.id);
     if (courseIdx !== -1) {
-      this.courses[courseIdx] = course;
+      this.courses[courseIdx] = {...this.courses[courseIdx], ...courseUpdate};
       return true;
     }
   }
