@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'creation-course-date',
   templateUrl: './creation-date.component.html',
-  styleUrls: ['./creation-date.component.css']
+  styleUrls: ['./creation-date.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreationDateComponent implements OnInit {
 

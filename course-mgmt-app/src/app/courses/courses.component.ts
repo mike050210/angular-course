@@ -8,8 +8,7 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-main',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
   filteredCourses: Course[] = [];
@@ -36,7 +35,7 @@ export class CoursesComponent implements OnInit {
 
   addNewCourse() {
     console.log('Adding a new course');
-    this.router.navigate(['new-course']);
+    this.router.navigate(['courses/new']);
   }
 
   loadMore() {
