@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Course} from '../models/course.model';
-import {stringify} from 'querystring';
 import {Md5} from 'ts-md5';
 
 @Injectable({
@@ -59,7 +58,7 @@ export class CoursesService {
   }
 
   public createCourse(course: Course): void {
-    course.id = Md5.hashStr(stringify(course)).toString();
+    course.id = Md5.hashStr(JSON.stringify(course)).toString();
     course.language = 'En'; // Setting English by default until its implemented
     this.courses.push(course);
   }

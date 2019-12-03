@@ -44,7 +44,6 @@ export class NewCourseComponent implements OnInit {
   }
 
   saveNewCourse() {
-    console.log(this.course);
     this.coursesService.createCourse(this.course);
     this.redirectToMain();
   }
