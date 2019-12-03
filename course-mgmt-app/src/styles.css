@@ -7,7 +7,14 @@ body {
 }
 
 input {
-  height: 36px;
+   height: 32px;
+   border-radius: 3px;
+   border: solid 1px #d9dbe3;
+   background-color: white;
+   color: #525462;
+ }
+
+textarea {
   border-radius: 3px;
   border: solid 1px #d9dbe3;
   background-color: white;

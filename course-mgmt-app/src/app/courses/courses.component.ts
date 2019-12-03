@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Path} from '../models/paths.model';
 import {Course} from '../models/course.model';
 import {CoursesService} from '../services/courses.service';
@@ -8,7 +8,8 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-main',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.css']
+  styleUrls: ['./courses.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesComponent implements OnInit {
   filteredCourses: Course[] = [];
@@ -35,6 +36,7 @@ export class CoursesComponent implements OnInit {
 
   addNewCourse() {
     console.log('Adding a new course');
+    this.router.navigate(['new-course']);
   }
 
   loadMore() {

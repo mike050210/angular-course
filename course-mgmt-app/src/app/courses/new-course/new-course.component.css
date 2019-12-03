@@ -1,0 +1,23 @@
+.main {
+  background-color: #F2F3F7;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+
+.new-course-box {
+  padding: 25px;
+  background: white;
+  box-shadow: 0 1px 24px 0 rgba(18, 21, 35, 0.08);
+  border-radius: 6px;
+  width: 600px;
+  margin-bottom: 50px;
+}
+
+
+.new-course-buttons {
+  display: block;
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

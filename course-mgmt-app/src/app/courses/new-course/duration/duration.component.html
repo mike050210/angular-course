@@ -1,0 +1,5 @@
+<app-label [label]='durationLbl' [required]='true'></app-label>
+<input placeholder="Minutes" type="text" pattern="[0-9]*" [(ngModel)]="duration"
+       (ngModelChange)="durationChange.emit($event)"/>
+&nbsp;
+<label>{{duration|timeConverter}}</label>
