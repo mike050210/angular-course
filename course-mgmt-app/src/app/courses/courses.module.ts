@@ -8,8 +8,10 @@ import {CourseListComponent} from './course-list/course-list.component';
 import {CourseItemComponent} from './course-list/course-item/course-item.component';
 import {SharedModule} from '../shared/shared.module';
 import {NewCourseComponent} from './new-course/new-course.component';
-import {CreationDateComponent} from './new-course/creation-date/creation-date.component';
-import {DurationComponent} from './new-course/duration/duration.component';
+import {CreationDateComponent} from './creation-date/creation-date.component';
+import {DurationComponent} from './duration/duration.component';
+import {EditCourseComponent} from './edit-course/edit-course.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -20,11 +22,12 @@ import {DurationComponent} from './new-course/duration/duration.component';
     CourseListComponent,
     CourseItemComponent,
     NewCourseComponent,
+    EditCourseComponent,
     CreationDateComponent,
     DurationComponent
   ],
   imports: [
-    CommonModule, FormsModule, SharedModule
+    CommonModule, FormsModule, SharedModule, RouterModule
   ],
   exports: [CoursesComponent]
 })

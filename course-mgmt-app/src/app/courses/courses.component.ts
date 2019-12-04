@@ -20,7 +20,9 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!localStorage.getItem('username')) {
+    const username = localStorage.getItem('username');
+
+    if (!username) {
       this.router.navigate(['login']);
     } else {
       this.filteredCourses = this.coursesService.getAllCourses();
@@ -43,7 +45,7 @@ export class CoursesComponent implements OnInit {
   }
 
   editCourse(courseId: string) {
-    console.log(`Edited course in parent: ${courseId}`);
+    this.router.navigate(['courses/', courseId]);
   }
 
   deleteCourse(courseId: string) {

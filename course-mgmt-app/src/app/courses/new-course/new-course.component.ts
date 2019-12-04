@@ -12,7 +12,7 @@ import {CoursesService} from '../../services/courses.service';
 })
 export class NewCourseComponent implements OnInit {
 
-  paths: Path[] = [{name: 'Courses', href: 'courses'}, {name: 'New Course', href: ''}];
+  paths: Path[] = [{name: 'Courses', href: '../../courses'}, {name: 'New Course', href: ''}];
   titleLbl: string;
   descriptionLbl: string;
   durationLbl: string;

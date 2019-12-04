@@ -64,12 +64,12 @@ export class CoursesService {
   }
 
   public getCourseById(courseId: String): Course {
-    const courseItem = this.courses.find(course => course.id === courseId);
+    const courseItem = this.courses.find(course => course !== null && course.id === courseId);
     return courseItem ? courseItem : null;
   }
 
   public updateCourse(courseUpdate: Partial<Course>): boolean {
-    const courseIdx = this.courses.findIndex(course => courseUpdate.id === course.id);
+    const courseIdx = this.courses.findIndex(course => course !== null && courseUpdate.id === course.id);
     if (courseIdx !== -1) {
       this.courses[courseIdx] = {...this.courses[courseIdx], ...courseUpdate};
       return true;
