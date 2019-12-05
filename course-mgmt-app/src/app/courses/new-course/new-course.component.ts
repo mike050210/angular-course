@@ -12,24 +12,16 @@ import {CoursesService} from '../../services/courses.service';
 })
 export class NewCourseComponent implements OnInit {
 
-  paths: Path[] = [{name: 'Courses', href: '../../courses'}, {name: 'New Course', href: ''}];
-  titleLbl: string;
-  descriptionLbl: string;
-  durationLbl: string;
-  dateLbl: string;
-  authorsLbl: string;
+  formTitle = 'New Course';
 
   course: Course;
+
+  paths: Path[] = [{name: 'Courses', href: '../../courses'}, {name: 'New Course', href: ''}];
 
   constructor(private readonly coursesService: CoursesService, private readonly router: Router) {
   }
 
   ngOnInit(): void {
-    this.titleLbl = 'Title:';
-    this.descriptionLbl = 'Description:';
-    this.durationLbl = 'Duration:';
-    this.dateLbl = 'Date';
-    this.authorsLbl = 'Authors';
 
     this.course = {
       creationDate: new Date(),
@@ -45,16 +37,7 @@ export class NewCourseComponent implements OnInit {
 
   saveNewCourse() {
     this.coursesService.createCourse(this.course);
-    this.redirectToMain();
-  }
-
-  cancelNewCourse() {
-    this.redirectToMain();
-  }
-
-  redirectToMain() {
     this.router.navigate(['courses']);
   }
-
 
 }

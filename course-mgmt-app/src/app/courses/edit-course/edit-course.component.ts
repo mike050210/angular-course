@@ -1,66 +1,53 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Path} from '../../models/paths.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Course} from '../../models/course.model';
 import {CoursesService} from '../../services/courses.service';
+import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-new-course',
+  selector: 'app-edit-course',
   templateUrl: './edit-course.component.html',
   styleUrls: ['./edit-course.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditCourseComponent implements OnInit {
+export class EditCourseComponent implements OnInit, OnDestroy {
+
+  private subscription: Subscription;
 
   paths: Path[] = [{name: 'Courses', href: '../../courses'}];
-  titleLbl: string;
-  descriptionLbl: string;
-  durationLbl: string;
-  dateLbl: string;
-  authorsLbl: string;
 
   @Input()
   courseId: string;
 
   course: Course;
 
-  constructor(private readonly coursesService: CoursesService, private readonly router: Router, private actRoute: ActivatedRoute) {
+  constructor(private readonly coursesService: CoursesService,
+              private readonly router: Router,
+              private readonly actRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.titleLbl = 'Title:';
-    this.descriptionLbl = 'Description:';
-    this.durationLbl = 'Duration:';
-    this.dateLbl = 'Date';
-    this.authorsLbl = 'Authors';
-
-    this.actRoute.params.subscribe(params =>
+    this.subscription = this.actRoute.params.subscribe(params =>
       this.courseId = params['courseId']
     );
 
     this.course = this.coursesService.getCourseById(this.courseId);
 
     if (!this.course) {
-      this.redirectToMain();
+      this.router.navigate(['error']);
     }
 
     this.paths.push({name: this.course.title, href: ''});
+  }
 
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   updateCourse() {
     this.coursesService.updateCourse(this.course);
-    this.redirectToMain();
-  }
-
-  cancelUpdateCourse() {
-    this.redirectToMain();
-  }
-
-  redirectToMain() {
     this.router.navigate(['courses']);
   }
-
 
 }
