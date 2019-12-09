@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {AuthenticationService} from '../services/authentication.service';
-import {User} from '../models/user-login.model';
 import {Router} from '@angular/router';
 
 @Component({
@@ -12,10 +11,9 @@ export class LoginComponent {
 
   emailLabel: string;
   passwordLabel: string;
-
+  login: string;
+  password: string;
   loginError: boolean;
-
-  user = <User>{};
 
   constructor(private readonly authenticationService: AuthenticationService, private readonly router: Router) {
     this.emailLabel = 'E-Mail:';
@@ -23,17 +21,18 @@ export class LoginComponent {
   }
 
   validateAndRedirect() {
-
-    const isValid = this.authenticationService.validateUser(this.user);
-
-    if (isValid) {
-      this.loginError = false;
-      this.router.navigate(['courses']);
-    } else {
-      this.user.id = '';
-      this.user.password = '';
-      this.loginError = true;
-    }
-
+    this.authenticationService.validateAndRetrieveUser(this.login, this.password).subscribe(user => {
+        if (user) {
+          localStorage.setItem('username', user.name.firstName + ' ' + user.name.lastName);
+          localStorage.setItem('token', user.fakeToken);
+          this.loginError = false;
+          this.router.navigate(['courses']);
+        }
+      },
+      err => {
+        this.login = '';
+        this.password = '';
+        this.loginError = true;
+      });
   }
 }

@@ -32,13 +32,13 @@ export class EditCourseComponent implements OnInit, OnDestroy {
       this.courseId = params['courseId']
     );
 
-    this.course = this.coursesService.getCourseById(this.courseId);
-
-    if (!this.course) {
-      this.router.navigate(['error']);
-    }
-
-    this.paths.push({name: this.course.title, href: ''});
+    this.coursesService.getCourseById(this.courseId).subscribe((item: Course) => {
+      this.course = item;
+      if (!this.course) {
+        this.router.navigate(['error']);
+      }
+      this.paths.push({name: this.course.title, href: ''});
+    });
   }
 
   ngOnDestroy(): void {
@@ -46,8 +46,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
 
   updateCourse() {
-    this.coursesService.updateCourse(this.course);
-    this.router.navigate(['courses']);
+    this.coursesService.updateCourse(this.course).subscribe(item => this.router.navigate(['courses']));
   }
 
 }

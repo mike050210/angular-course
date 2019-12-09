@@ -1,37 +1,59 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Path} from '../models/paths.model';
 import {Course} from '../models/course.model';
 import {CoursesService} from '../services/courses.service';
-import {FilterCoursesPipe} from '../shared/pipes/filter-courses.pipe';
 import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-main',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.css']
+  styleUrls: ['./courses.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class CoursesComponent implements OnInit {
   filteredCourses: Course[] = [];
   paths: Path[] = [{name: 'Courses', href: ''}];
   loadMoreLabel = 'Load More';
-  filtered = false;
+  filter: string;
+  startIdxResult: number;
+  countResults: number;
+  step: number;
 
-  constructor(private readonly coursesService: CoursesService, private readonly router: Router) {
+
+  constructor(private httpClient: HttpClient,
+              private readonly coursesService: CoursesService,
+              private readonly router: Router,
+              private readonly cdRef: ChangeDetectorRef
+  ) {
   }
 
   ngOnInit(): void {
+    this.startIdxResult = 0;
+    this.countResults = 5;
+    this.step = 5;
+
     const username = localStorage.getItem('username');
 
     if (!username) {
       this.router.navigate(['login']);
     } else {
-      this.filteredCourses = this.coursesService.getAllCourses();
+      this.retrieveCourses();
     }
   }
 
+  retrieveCourses(filter?: string): void {
+    this.coursesService.getAllCourses(this.startIdxResult, this.countResults, filter)
+      .subscribe((items: Course[]) => {
+        this.filteredCourses = items;
+        this.cdRef.markForCheck();
+      });
+  }
+
   filterCourses(filter: string) {
-    this.filteredCourses = new FilterCoursesPipe().transform(this.coursesService.getAllCourses(), filter);
-    this.filtered = !!filter;
+    this.filter = filter;
+    this.retrieveCourses(this.filter);
 
   }
 
@@ -42,6 +64,13 @@ export class CoursesComponent implements OnInit {
 
   loadMore() {
     console.log('Loading more courses');
+
+    this.coursesService.getAllCourses(this.countResults, this.step, this.filter)
+      .subscribe((items: Course[]) => {
+        this.filteredCourses = [...this.filteredCourses, ...items];
+        this.countResults += this.step;
+        this.cdRef.markForCheck();
+      });
   }
 
   editCourse(courseId: string) {
@@ -49,9 +78,13 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourse(courseId: string) {
-    if (this.coursesService.deleteCourse(courseId)) {
-      this.filteredCourses = this.coursesService.getAllCourses();
-    }
+    this.startIdxResult = 0;
+    this.countResults = 5;
+    this.coursesService.deleteCourse(courseId, this.startIdxResult, this.countResults)
+      .subscribe((items: Course[]) => {
+        this.filteredCourses = items;
+        this.cdRef.markForCheck();
+      });
   }
 
 }

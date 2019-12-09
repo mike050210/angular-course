@@ -13,10 +13,10 @@
       <div class="container ">
         <div class="row-2 section">
           <app-label [label]='emailLabel' [required]='true'></app-label>
-          <input placeholder="example@mail.com" type="email" [(ngModel)]="user.id" class="container"/>
+          <input placeholder="example@mail.com" type="email" [(ngModel)]="login" class="container"/>
 
           <app-label [label]='passwordLabel' [required]='true'></app-label>
-          <input placeholder="Enter Password" type="password" [(ngModel)]='user.password' class="container"/>
+          <input placeholder="Enter Password" type="password" [(ngModel)]='password' class="container"/>
         </div>
         <div class="row section">
           <div class="col">
@@ -26,8 +26,8 @@
               <button
                   (click)="validateAndRedirect()"
                   type="button"
-                  [ngClass]="{'btn float-right':true, 'btn-secondary': (!user.id || !user.password), 'btn-success': (!!user.id && !!user.password)}"
-                  [disabled]="!user.id || !user.password">
+                  [ngClass]="{'btn float-right':true, 'btn-secondary': (!login || !password), 'btn-success': (!!login && !!password)}"
+                  [disabled]="!login || !password">
                   Login
               </button>
 

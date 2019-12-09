@@ -20,12 +20,13 @@ describe('CourseItemComponent', () => {
     component = fixture.componentInstance;
 
     component.course = {
-      id: 'abc', title: 'Course title',
+      id: 'abc',
+      title: 'Course title',
+      description: 'Course description',
+      authors: null,
       creationDate: new Date('12/12/2018'),
       duration: 100,
-      description: 'Course description',
       language: 'Es',
-      thumbnailUrl: null,
       rating: 5
     };
 

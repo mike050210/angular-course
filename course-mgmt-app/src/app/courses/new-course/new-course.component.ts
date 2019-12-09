@@ -24,19 +24,19 @@ export class NewCourseComponent implements OnInit {
   ngOnInit(): void {
 
     this.course = {
-      creationDate: new Date(),
-      description: '',
-      duration: null,
       id: '',
-      language: '',
+      title: '',
+      description: '',
+      creationDate: new Date(),
+      authors: null,
       rating: 0,
-      thumbnailUrl: '',
-      title: ''
+      duration: null,
+      language: ''
     };
   }
 
   saveNewCourse() {
-    this.coursesService.createCourse(this.course);
+    this.coursesService.createCourse(this.course).subscribe();
     this.router.navigate(['courses']);
   }
 

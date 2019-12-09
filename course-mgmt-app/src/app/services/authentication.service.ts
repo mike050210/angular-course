@@ -1,53 +1,43 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/user-login.model';
-import {stringify} from 'querystring';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Token} from '../models/token.model';
+import {mergeMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
+  constructor(private readonly http: HttpClient) {
+  }
+
   private user = <User>{};
   private loggedIn = false;
-
-  users: User[] =
-    [
-      {
-        id: 'a',
-        password: 'a',
-        firstName: 'Miguel',
-        lastName: 'Osorio'
-      },
-      {
-        id: 'admin@epam.com',
-        password: 'admin',
-        firstName: 'Miguel',
-        lastName: 'Osorio'
-      }
-    ];
+  private readonly authUrlBase: string = 'http://localhost:3004/auth';
 
 
-  public validateUser(userLogin: User): boolean {
-    this.user = this.users.find(user => user.id === userLogin.id && user.password === userLogin.password);
-    if (this.user) {
-      localStorage.setItem('username', this.user.firstName + ' ' + this.user.lastName);
-      localStorage.setItem('user', JSON.stringify(this.user));
-      this.loggedIn = true;
-    }
-    return this.loggedIn;
+  public validateAndRetrieveUser(login: string, password: string): Observable<User> {
+
+    return this.http.post<Token>(`${this.authUrlBase}/login`, {login, password})
+      .pipe(mergeMap(tkn => {
+        return this.http.post<User>(`${this.authUrlBase}/userinfo`, {...tkn});
+      }));
   }
+
 
   public logout(): void {
     this.loggedIn = false;
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     localStorage.removeItem('username');
   }
 
   public getLoginUsername(): string {
-    return this.user.firstName + ' ' + this.user.lastName;
+    return this.user.name.firstName + ' ' + this.user.name.lastName;
   }
 
   public isAuthenticated(): boolean {
-    return !!localStorage.getItem('user');
+    return !!localStorage.getItem('username');
   }
 }
