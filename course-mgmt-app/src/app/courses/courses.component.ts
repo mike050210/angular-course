@@ -4,6 +4,8 @@ import {Course} from '../models/course.model';
 import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {first, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-main',
@@ -13,13 +15,13 @@ import {HttpClient} from '@angular/common/http';
 
 })
 export class CoursesComponent implements OnInit {
-  filteredCourses: Course[] = [];
+  filteredCourses$: Observable<Course[]>;
+  filter$ = new BehaviorSubject<string>('');
+  countResults$ = new BehaviorSubject<number>(5);
   paths: Path[] = [{name: 'Courses', href: ''}];
   loadMoreLabel = 'Load More';
-  filter: string;
-  startIdxResult: number;
-  countResults: number;
-  step: number;
+  startIdxResult = 0;
+  readonly step = 5;
 
 
   constructor(private httpClient: HttpClient,
@@ -30,31 +32,22 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.startIdxResult = 0;
-    this.countResults = 5;
-    this.step = 5;
-
     const username = localStorage.getItem('username');
 
     if (!username) {
       this.router.navigate(['login']);
     } else {
-      this.retrieveCourses();
+      this.filteredCourses$ = combineLatest(this.countResults$, this.filter$)
+        .pipe(switchMap(([counter, filter]) => this.retrieveCourses(counter, filter)));
     }
   }
 
-  retrieveCourses(filter?: string): void {
-    this.coursesService.getAllCourses(this.startIdxResult, this.countResults, filter)
-      .subscribe((items: Course[]) => {
-        this.filteredCourses = items;
-        this.cdRef.markForCheck();
-      });
+  retrieveCourses(countResults: number, filter?: string): Observable<Course[]> {
+    return this.coursesService.getAllCourses(this.startIdxResult, countResults, filter);
   }
 
   filterCourses(filter: string) {
-    this.filter = filter;
-    this.retrieveCourses(this.filter);
-
+    this.filter$.next(filter);
   }
 
   addNewCourse() {
@@ -64,13 +57,9 @@ export class CoursesComponent implements OnInit {
 
   loadMore() {
     console.log('Loading more courses');
-
-    this.coursesService.getAllCourses(this.countResults, this.step, this.filter)
-      .subscribe((items: Course[]) => {
-        this.filteredCourses = [...this.filteredCourses, ...items];
-        this.countResults += this.step;
-        this.cdRef.markForCheck();
-      });
+    this.countResults$.pipe(first()).subscribe((countResults) => {
+      this.countResults$.next(countResults + this.step);
+    });
   }
 
   editCourse(courseId: string) {
@@ -78,13 +67,9 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourse(courseId: string) {
-    this.startIdxResult = 0;
-    this.countResults = 5;
-    this.coursesService.deleteCourse(courseId, this.startIdxResult, this.countResults)
-      .subscribe((items: Course[]) => {
-        this.filteredCourses = items;
-        this.cdRef.markForCheck();
-      });
+    this.coursesService.deleteCourse(courseId).pipe(first()).subscribe(() => {
+      this.countResults$.next(5);
+    });
   }
 
 }

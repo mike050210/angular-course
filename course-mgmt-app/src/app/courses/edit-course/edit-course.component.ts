@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Course} from '../../models/course.model';
 import {CoursesService} from '../../services/courses.service';
 import {Subscription} from 'rxjs';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-course',
@@ -32,13 +33,14 @@ export class EditCourseComponent implements OnInit, OnDestroy {
       this.courseId = params['courseId']
     );
 
-    this.coursesService.getCourseById(this.courseId).subscribe((item: Course) => {
-      this.course = item;
-      if (!this.course) {
-        this.router.navigate(['error']);
-      }
-      this.paths.push({name: this.course.title, href: ''});
-    });
+    this.coursesService.getCourseById(this.courseId).pipe(first())
+      .subscribe((item: Course) => {
+        this.course = item;
+        if (!this.course) {
+          this.router.navigate(['error']);
+        }
+        this.paths.push({name: this.course.title, href: ''});
+      });
   }
 
   ngOnDestroy(): void {
@@ -46,7 +48,8 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
 
   updateCourse() {
-    this.coursesService.updateCourse(this.course).subscribe(item => this.router.navigate(['courses']));
+    this.coursesService.updateCourse(this.course).pipe(first())
+      .subscribe(item => this.router.navigate(['courses']));
   }
 
 }

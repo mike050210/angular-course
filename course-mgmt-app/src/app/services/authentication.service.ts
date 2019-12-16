@@ -3,7 +3,7 @@ import {User} from '../models/user-login.model';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Token} from '../models/token.model';
-import {mergeMap} from 'rxjs/operators';
+import {switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthenticationService {
   public validateAndRetrieveUser(login: string, password: string): Observable<User> {
 
     return this.http.post<Token>(`${this.authUrlBase}/login`, {login, password})
-      .pipe(mergeMap(tkn => {
+      .pipe(switchMap(tkn => {
         return this.http.post<User>(`${this.authUrlBase}/userinfo`, {...tkn});
       }));
   }

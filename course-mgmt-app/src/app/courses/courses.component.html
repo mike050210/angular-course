@@ -8,12 +8,15 @@
       </button>
     </div>
 
-    <div *ngIf="filteredCourses.length > 0; else noCourses">
-      <app-course-list [courses]="filteredCourses" (edit)="editCourse($event)"
-                       (delete)="deleteCourse($event)"></app-course-list>
-      <button type="button" class="btn btn-light btn-lg btn-block load-more shadow-sm"
-              (click)="loadMore()">{{loadMoreLabel | uppercase}}</button>
-    </div>
+    <ng-container *ngIf="filteredCourses$ | async as filteredCourses">
+      <div *ngIf="filteredCourses.length > 0; else noCourses">
+        <app-course-list [courses]="filteredCourses" (edit)="editCourse($event)"
+                         (delete)="deleteCourse($event)"></app-course-list>
+        <button type="button" class="btn btn-light btn-lg btn-block load-more shadow-sm"
+                (click)="loadMore()">{{loadMoreLabel | uppercase}}</button>
+      </div>
+    </ng-container>
+
 
   </div>
 </div>
@@ -21,7 +24,7 @@
 
 <ng-template #noCourses>
   <div class="alert alert-warning alert-dismissible fade show text-center mt-5" role="alert">
-    <div *ngIf="!filter; else notFound">
+    <div *ngIf="!filter$; else notFound">
       <strong>No data.</strong> Feel free to add a new course.
     </div>
   </div>

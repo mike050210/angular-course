@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Course} from '../models/course.model';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {mergeMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -39,12 +38,10 @@ export class CoursesService {
     return this.httpClient.put<Course>(endpoint, {...courseUpdate});
   }
 
-  public deleteCourse(courseId: String, start: number, count: number): Observable<Course[]> {
+
+  public deleteCourse(courseId: String): Observable<Course> {
     const deleteEndpoint = `${this.urlServer}/courses/${courseId}`;
 
-    return this.httpClient.delete<Course>(deleteEndpoint)
-      .pipe(mergeMap(course => {
-        return this.getAllCourses(start, count);
-      }));
+    return this.httpClient.delete<Course>(deleteEndpoint);
   }
 }

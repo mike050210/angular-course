@@ -3,6 +3,7 @@ import {Path} from '../../models/paths.model';
 import {Router} from '@angular/router';
 import {Course} from '../../models/course.model';
 import {CoursesService} from '../../services/courses.service';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-course',
@@ -36,7 +37,7 @@ export class NewCourseComponent implements OnInit {
   }
 
   saveNewCourse() {
-    this.coursesService.createCourse(this.course).subscribe();
+    this.coursesService.createCourse(this.course).pipe(first()).subscribe();
     this.router.navigate(['courses']);
   }
 
