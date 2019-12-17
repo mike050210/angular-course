@@ -68,7 +68,9 @@ export class CoursesComponent implements OnInit {
 
   deleteCourse(courseId: string) {
     this.coursesService.deleteCourse(courseId).pipe(first()).subscribe(() => {
-      this.countResults$.next(5);
+      this.filteredCourses$ = combineLatest(this.countResults$, this.filter$)
+        .pipe(switchMap(([counter, filter]) => this.retrieveCourses(counter, filter)));
+      this.cdRef.markForCheck();
     });
   }
 

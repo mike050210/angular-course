@@ -24,7 +24,7 @@
 
 <ng-template #noCourses>
   <div class="alert alert-warning alert-dismissible fade show text-center mt-5" role="alert">
-    <div *ngIf="!filter$; else notFound">
+    <div *ngIf="!(filter$ | async); else notFound">
       <strong>No data.</strong> Feel free to add a new course.
     </div>
   </div>
