@@ -66,12 +66,11 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['courses/', courseId]);
   }
 
-  deleteCourse(courseId: string) {
+deleteCourse(courseId: string) {
     this.coursesService.deleteCourse(courseId).pipe(first()).subscribe(() => {
-      this.filteredCourses$ = combineLatest(this.countResults$, this.filter$)
-        .pipe(switchMap(([counter, filter]) => this.retrieveCourses(counter, filter)));
-      this.cdRef.markForCheck();
+      this.countResults$.next(this.countResults$.getValue());
     });
   }
+
 
 }
