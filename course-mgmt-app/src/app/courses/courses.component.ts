@@ -4,8 +4,9 @@ import {Course} from '../models/course.model';
 import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {first, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable, timer} from 'rxjs';
+import {debounceTime, distinctUntilChanged, first, switchMap} from 'rxjs/operators';
+import {LoadingService} from '../services/loading.service';
 
 @Component({
   selector: 'app-main',
@@ -26,6 +27,7 @@ export class CoursesComponent implements OnInit {
 
   constructor(private httpClient: HttpClient,
               private readonly coursesService: CoursesService,
+              private readonly loadingService: LoadingService,
               private readonly router: Router,
               private readonly cdRef: ChangeDetectorRef
   ) {
@@ -37,8 +39,14 @@ export class CoursesComponent implements OnInit {
     if (!username) {
       this.router.navigate(['login']);
     } else {
-      this.filteredCourses$ = combineLatest(this.countResults$, this.filter$)
-        .pipe(switchMap(([counter, filter]) => this.retrieveCourses(counter, filter)));
+      this.filteredCourses$ = combineLatest(this.countResults$,
+        this.filter$.pipe(debounceTime(300), distinctUntilChanged()))
+        .pipe(switchMap(([counter, filter]) => {
+          this.loadingService.startLoading();
+          const courses = this.retrieveCourses(counter, filter);
+          this.loadingService.finishLoading();
+          return courses;
+        }));
     }
   }
 
@@ -57,8 +65,13 @@ export class CoursesComponent implements OnInit {
 
   loadMore() {
     console.log('Loading more courses');
-    this.countResults$.pipe(first()).subscribe((countResults) => {
-      this.countResults$.next(countResults + this.step);
+    combineLatest(this.countResults$.pipe(first()), timer(1000)).pipe(value => {
+        this.loadingService.startLoading();
+        return value;
+      }
+    ).subscribe((countResults) => {
+      this.countResults$.next(countResults[0] + this.step);
+      this.loadingService.finishLoading();
     });
   }
 
@@ -66,9 +79,14 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['courses/', courseId]);
   }
 
-deleteCourse(courseId: string) {
-    this.coursesService.deleteCourse(courseId).pipe(first()).subscribe(() => {
+  deleteCourse(courseId: string) {
+    combineLatest(this.coursesService.deleteCourse(courseId).pipe(first()), timer(500)).pipe(value => {
+        this.loadingService.startLoading();
+        return value;
+      }
+    ).subscribe(() => {
       this.countResults$.next(this.countResults$.getValue());
+      this.loadingService.finishLoading();
     });
   }
 

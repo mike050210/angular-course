@@ -1,6 +1,3 @@
 <div>
-  <input [(ngModel)]="searchText" placeholder="Search course" type="text" class="search-box"/>
-  <span class="search-button">
-    <button type="button" class="btn btn-success" (click)="searchCourses()">Search</button>
-  </span>
+  <input placeholder="Search course" type="text" class="search-box" (keyup)="searchCourses($event.target.value)"/>
 </div>

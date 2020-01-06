@@ -13,6 +13,7 @@ import {ErrorComponent} from './error/error.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthHttpInterceptor} from './services/auth-http.interceptor';
+import {LoaderComponent} from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {AuthHttpInterceptor} from './services/auth-http.interceptor';
     HeaderLogOffComponent,
     AppComponent,
     FooterComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/user-login.model';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Token} from '../models/token.model';
 import {switchMap} from 'rxjs/operators';
 
@@ -13,8 +13,7 @@ export class AuthenticationService {
   constructor(private readonly http: HttpClient) {
   }
 
-  private user = <User>{};
-  private loggedIn = false;
+  private loggedIn = new BehaviorSubject<boolean>(false);
   private readonly authUrlBase: string = 'http://localhost:3004/auth';
 
 
@@ -23,21 +22,20 @@ export class AuthenticationService {
     return this.http.post<Token>(`${this.authUrlBase}/login`, {login, password})
       .pipe(switchMap(tkn => {
         return this.http.post<User>(`${this.authUrlBase}/userinfo`, {...tkn});
-      }));
+      })).pipe(user => {
+        this.loggedIn.next(true);
+        return user;
+      });
   }
 
 
   public logout(): void {
-    this.loggedIn = false;
+    this.loggedIn.next(false);
     localStorage.removeItem('token');
     localStorage.removeItem('username');
   }
 
-  public getLoginUsername(): string {
-    return this.user.name.firstName + ' ' + this.user.name.lastName;
-  }
-
-  public isAuthenticated(): boolean {
-    return !!localStorage.getItem('username');
+  public isAuthenticated(): Observable<boolean> {
+    return this.loggedIn;
   }
 }

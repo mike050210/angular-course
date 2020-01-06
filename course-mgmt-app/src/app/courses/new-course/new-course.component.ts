@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Course} from '../../models/course.model';
 import {CoursesService} from '../../services/courses.service';
 import {first} from 'rxjs/operators';
+import {LoadingService} from '../../services/loading.service';
 
 @Component({
   selector: 'app-new-course',
@@ -19,7 +20,9 @@ export class NewCourseComponent implements OnInit {
 
   paths: Path[] = [{name: 'Courses', href: '../../courses'}, {name: 'New Course', href: ''}];
 
-  constructor(private readonly coursesService: CoursesService, private readonly router: Router) {
+  constructor(private readonly coursesService: CoursesService,
+              private readonly loadingService: LoadingService,
+              private readonly router: Router) {
   }
 
   ngOnInit(): void {
@@ -37,7 +40,10 @@ export class NewCourseComponent implements OnInit {
   }
 
   saveNewCourse() {
-    this.coursesService.createCourse(this.course).pipe(first()).subscribe();
+    this.coursesService.createCourse(this.course).pipe(first()).pipe(value => {
+      this.loadingService.startLoading();
+      return value;
+    }).subscribe(value => this.loadingService.finishLoading());
     this.router.navigate(['courses']);
   }
 

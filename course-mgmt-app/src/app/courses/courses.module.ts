@@ -12,7 +12,8 @@ import {CreationDateComponent} from './creation-date/creation-date.component';
 import {DurationComponent} from './duration/duration.component';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {RouterModule} from '@angular/router';
-import { CourseFormComponent } from './course-form/course-form.component';
+import {CourseFormComponent} from './course-form/course-form.component';
+import {AuthGuard} from '../services/auth.guard';
 
 
 @NgModule({
@@ -29,7 +30,16 @@ import { CourseFormComponent } from './course-form/course-form.component';
     CourseFormComponent
   ],
   imports: [
-    CommonModule, FormsModule, SharedModule, RouterModule
+    CommonModule,
+    FormsModule,
+    SharedModule,
+    RouterModule.forRoot([
+      {
+        path: 'courses',
+        component: CoursesComponent,
+        canActivate: [AuthGuard]
+      }
+    ])
   ],
   exports: [CoursesComponent]
 })

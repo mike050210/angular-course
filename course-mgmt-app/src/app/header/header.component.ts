@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = localStorage.getItem('username');
-    this.isLoggedIn = this.authService.isAuthenticated();
+    this.authService.isAuthenticated().subscribe(value => this.isLoggedIn = value);
   }
 
   logoutSession() {
