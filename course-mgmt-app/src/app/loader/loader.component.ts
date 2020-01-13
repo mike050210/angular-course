@@ -12,13 +12,10 @@ export class LoaderComponent implements OnInit {
   constructor(private loadingSvc: LoadingService) {
   }
 
-  loading: boolean;
+  loading$: Observable<boolean>;
 
   ngOnInit() {
-    this.loadingSvc.loadingStatus().subscribe(loading => {
-      this.loading = loading.valueOf();
-    })
-    ;
+    this.loading$ = this.loadingSvc.loadingStatus();
   }
 
 }

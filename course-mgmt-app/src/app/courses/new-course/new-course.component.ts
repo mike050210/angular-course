@@ -3,7 +3,7 @@ import {Path} from '../../models/paths.model';
 import {Router} from '@angular/router';
 import {Course} from '../../models/course.model';
 import {CoursesService} from '../../services/courses.service';
-import {first} from 'rxjs/operators';
+import {first, map} from 'rxjs/operators';
 import {LoadingService} from '../../services/loading.service';
 
 @Component({
@@ -40,10 +40,10 @@ export class NewCourseComponent implements OnInit {
   }
 
   saveNewCourse() {
-    this.coursesService.createCourse(this.course).pipe(first()).pipe(value => {
-      this.loadingService.startLoading();
+    this.loadingService.startLoading();
+    this.coursesService.createCourse(this.course).pipe(first(), map(value => {
       return value;
-    }).subscribe(value => this.loadingService.finishLoading());
+    })).subscribe(value => this.loadingService.finishLoading());
     this.router.navigate(['courses']);
   }
 

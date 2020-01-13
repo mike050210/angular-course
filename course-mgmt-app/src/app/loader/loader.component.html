@@ -1,4 +1,4 @@
-<div *ngIf="loading === true">
+<div *ngIf="loading$ | async">
   <div class="d-flex justify-content-center card-img-overlay spinner-size">
     <div class="spinner-border" role="status">
       <span class="sr-only">Loading...</span>

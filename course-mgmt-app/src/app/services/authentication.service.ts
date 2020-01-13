@@ -13,7 +13,7 @@ export class AuthenticationService {
   constructor(private readonly http: HttpClient) {
   }
 
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private loggedIn = new BehaviorSubject(false);
   private readonly authUrlBase: string = 'http://localhost:3004/auth';
 
 

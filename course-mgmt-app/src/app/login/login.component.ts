@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {AuthenticationService} from '../services/authentication.service';
 import {Router} from '@angular/router';
-import {combineLatest, timer} from 'rxjs';
+import {combineLatest} from 'rxjs';
 import {LoadingService} from '../services/loading.service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -25,22 +26,21 @@ export class LoginComponent {
   }
 
   validateAndRedirect() {
-    combineLatest(this.authenticationService.validateAndRetrieveUser(this.login, this.password), timer(500)).pipe(value => {
-      this.loadingService.startLoading();
-      return value;
-    }).subscribe(user => {
-        if (user) {
-          localStorage.setItem('username', user[0].name.firstName + ' ' + user[0].name.lastName);
-          localStorage.setItem('token', user[0].fakeToken);
-          this.loginError = false;
-          this.router.navigate(['courses']);
-        }
-        this.loadingService.finishLoading();
-      },
-      err => {
-        this.login = '';
-        this.password = '';
-        this.loginError = true;
-      });
+    this.loadingService.startLoading();
+    this.authenticationService.validateAndRetrieveUser(this.login, this.password)
+      .pipe(finalize(() => this.loadingService.finishLoading()))
+      .subscribe(user => {
+          if (user) {
+            localStorage.setItem('username', user.name.firstName + ' ' + user.name.lastName);
+            localStorage.setItem('token', user.fakeToken);
+            this.loginError = false;
+            this.router.navigate(['courses']);
+          }
+        },
+        err => {
+          this.login = '';
+          this.password = '';
+          this.loginError = true;
+        });
   }
 }

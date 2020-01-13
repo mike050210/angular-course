@@ -4,8 +4,8 @@ import {Course} from '../models/course.model';
 import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, combineLatest, Observable, timer} from 'rxjs';
-import {debounceTime, distinctUntilChanged, first, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, finalize, first, switchMap, tap} from 'rxjs/operators';
 import {LoadingService} from '../services/loading.service';
 
 @Component({
@@ -40,18 +40,18 @@ export class CoursesComponent implements OnInit {
       this.router.navigate(['login']);
     } else {
       this.filteredCourses$ = combineLatest(this.countResults$,
-        this.filter$.pipe(debounceTime(300), distinctUntilChanged()))
-        .pipe(switchMap(([counter, filter]) => {
+        this.filter$.pipe(debounceTime(300),
+          distinctUntilChanged(),
+          filter(() => this.filter$.value.length === 0 || this.filter$.value.length >= 3)))
+        .pipe(switchMap(([counter, filterValue]) => {
           this.loadingService.startLoading();
-          const courses = this.retrieveCourses(counter, filter);
-          this.loadingService.finishLoading();
-          return courses;
-        }));
+          return this.retrieveCourses(counter, filterValue).pipe(tap(() => this.loadingService.finishLoading()));
+        }), finalize(() => this.loadingService.finishLoading()));
     }
   }
 
-  retrieveCourses(countResults: number, filter?: string): Observable<Course[]> {
-    return this.coursesService.getAllCourses(this.startIdxResult, countResults, filter);
+  retrieveCourses(countResults: number, filterValue?: string): Observable<Course[]> {
+    return this.coursesService.getAllCourses(this.startIdxResult, countResults, filterValue);
   }
 
   filterCourses(filter: string) {
@@ -65,13 +65,12 @@ export class CoursesComponent implements OnInit {
 
   loadMore() {
     console.log('Loading more courses');
-    combineLatest(this.countResults$.pipe(first()), timer(1000)).pipe(value => {
+    this.countResults$.pipe(first()).pipe(value => {
         this.loadingService.startLoading();
         return value;
       }
     ).subscribe((countResults) => {
-      this.countResults$.next(countResults[0] + this.step);
-      this.loadingService.finishLoading();
+      this.countResults$.next(countResults + this.step);
     });
   }
 
@@ -80,13 +79,12 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourse(courseId: string) {
-    combineLatest(this.coursesService.deleteCourse(courseId).pipe(first()), timer(500)).pipe(value => {
+    this.coursesService.deleteCourse(courseId).pipe(first()).pipe(value => {
         this.loadingService.startLoading();
         return value;
       }
     ).subscribe(() => {
       this.countResults$.next(this.countResults$.getValue());
-      this.loadingService.finishLoading();
     });
   }
 
