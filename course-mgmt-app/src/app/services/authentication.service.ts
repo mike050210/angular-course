@@ -36,6 +36,7 @@ export class AuthenticationService {
   }
 
   public isAuthenticated(): Observable<boolean> {
+    this.loggedIn.next(!!localStorage.getItem('username'));
     return this.loggedIn;
   }
 }

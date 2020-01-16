@@ -41,9 +41,7 @@ export class NewCourseComponent implements OnInit {
 
   saveNewCourse() {
     this.loadingService.startLoading();
-    this.coursesService.createCourse(this.course).pipe(first(), map(value => {
-      return value;
-    })).subscribe(value => this.loadingService.finishLoading());
+    this.coursesService.createCourse(this.course).pipe(first()).subscribe(() => this.loadingService.finishLoading());
     this.router.navigate(['courses']);
   }
 
