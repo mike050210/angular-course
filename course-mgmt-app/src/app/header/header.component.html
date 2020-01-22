@@ -2,8 +2,8 @@
   <div class="col">
     <img src="../../assets/images/logo.svg"/>
   </div>
-  <div class="col header-left-control" *ngIf="isLoggedIn">
-    <app-header-user username="{{username}}"></app-header-user>
+  <div class="col header-left-control" *ngIf="isLoggedIn$ | async">
+    <app-header-user username="{{username$ | async}}"></app-header-user>
     <app-header-log-off (logout)="logoutSession()"></app-header-log-off>
   </div>
 </div>

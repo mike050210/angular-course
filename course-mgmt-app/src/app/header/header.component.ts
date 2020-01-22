@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthenticationService} from '../services/authentication.service';
+import {map} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {AppState} from '../store/app.states';
+import {Observable} from 'rxjs';
+import {logout} from '../store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -9,22 +13,27 @@ import {AuthenticationService} from '../services/authentication.service';
 })
 export class HeaderComponent implements OnInit {
 
-  public headerTitle = 'Video Course';
+  username$: Observable<String>;
+  isLoggedIn$: Observable<boolean>;
 
-  username: string;
-  isLoggedIn: boolean;
-
-  constructor(private readonly router: Router, private readonly authService: AuthenticationService) {
+  constructor(private readonly router: Router,
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('username');
-    this.authService.isAuthenticated().subscribe(value => this.isLoggedIn = value);
+
+    this.username$ = this.store.select('authState').pipe(map(store => {
+      if (store.user) {
+        return store.user.name.firstName + ' ' + store.user.name.lastName;
+      } else {
+        return '';
+      }
+    }));
+
+    this.isLoggedIn$ = this.store.select('authState').pipe(map(store => store.isAuthenticated));
   }
 
   logoutSession() {
-    this.authService.logout();
-    this.username = '';
-    this.router.navigate(['login']);
+    this.store.dispatch(logout());
   }
 }

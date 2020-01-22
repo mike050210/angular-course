@@ -32,11 +32,5 @@ export class AuthenticationService {
   public logout(): void {
     this.loggedIn.next(false);
     localStorage.removeItem('token');
-    localStorage.removeItem('username');
-  }
-
-  public isAuthenticated(): Observable<boolean> {
-    this.loggedIn.next(!!localStorage.getItem('username'));
-    return this.loggedIn;
   }
 }

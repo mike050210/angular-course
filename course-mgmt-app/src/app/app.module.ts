@@ -14,6 +14,10 @@ import {AppRoutingModule} from './app-routing.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthHttpInterceptor} from './services/auth-http.interceptor';
 import {LoaderComponent} from './loader/loader.component';
+import {EffectsModule} from '@ngrx/effects';
+import {AuthEffects} from './store/auth.effects';
+import {StoreModule} from '@ngrx/store';
+import {authReducers} from './store/auth.reducers';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,8 @@ import {LoaderComponent} from './loader/loader.component';
     LoginModule,
     CoursesModule,
     AppRoutingModule,
+    StoreModule.forRoot({authState: authReducers}),
+    EffectsModule.forRoot([AuthEffects]),
     HttpClientModule
   ],
   providers: [

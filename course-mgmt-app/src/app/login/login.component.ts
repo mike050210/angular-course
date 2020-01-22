@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
-import {AuthenticationService} from '../services/authentication.service';
 import {Router} from '@angular/router';
-import {combineLatest} from 'rxjs';
+import {Observable} from 'rxjs';
 import {LoadingService} from '../services/loading.service';
-import {finalize} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {login} from '../store/auth.actions';
+import {AppState} from '../store/app.states';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -16,31 +18,22 @@ export class LoginComponent {
   passwordLabel: string;
   login: string;
   password: string;
-  loginError: boolean;
+  loginError$: Observable<boolean>;
 
-  constructor(private readonly authenticationService: AuthenticationService,
-              private readonly loadingService: LoadingService,
-              private readonly router: Router) {
+  constructor(private readonly loadingService: LoadingService,
+              private readonly router: Router,
+              private store: Store<AppState>) {
     this.emailLabel = 'E-Mail:';
     this.passwordLabel = 'Password:';
   }
 
+
   validateAndRedirect() {
-    this.loadingService.startLoading();
-    this.authenticationService.validateAndRetrieveUser(this.login, this.password)
-      .pipe(finalize(() => this.loadingService.finishLoading()))
-      .subscribe(user => {
-          if (user) {
-            localStorage.setItem('username', user.name.firstName + ' ' + user.name.lastName);
-            localStorage.setItem('token', user.fakeToken);
-            this.loginError = false;
-            this.router.navigate(['courses']);
-          }
-        },
-        err => {
-          this.login = '';
-          this.password = '';
-          this.loginError = true;
-        });
+    this.store.dispatch(login({
+      login: this.login,
+      password: this.password
+    }));
+
+    this.loginError$ = this.store.select('authState').pipe(map(state => state.errorMessage));
   }
 }
