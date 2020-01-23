@@ -18,6 +18,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './store/auth.effects';
 import {StoreModule} from '@ngrx/store';
 import {authReducers} from './store/auth.reducers';
+import {coursesReducers} from './store/courses.reducers';
+import {CoursesEffects} from './store/courses.effects';
 
 @NgModule({
   declarations: [
@@ -35,8 +37,8 @@ import {authReducers} from './store/auth.reducers';
     LoginModule,
     CoursesModule,
     AppRoutingModule,
-    StoreModule.forRoot({authState: authReducers}),
-    EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot({authState: authReducers, coursesState: coursesReducers}),
+    EffectsModule.forRoot([AuthEffects, CoursesEffects]),
     HttpClientModule
   ],
   providers: [

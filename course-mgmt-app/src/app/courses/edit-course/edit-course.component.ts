@@ -5,6 +5,9 @@ import {Course} from '../../models/course.model';
 import {CoursesService} from '../../services/courses.service';
 import {Subscription} from 'rxjs';
 import {first} from 'rxjs/operators';
+import {updateCourse} from '../../store/courses.actions';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../store/app.states';
 
 @Component({
   selector: 'app-edit-course',
@@ -24,6 +27,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   course: Course;
 
   constructor(private readonly coursesService: CoursesService,
+              private store: Store<AppState>,
               private readonly router: Router,
               private readonly actRoute: ActivatedRoute) {
   }
@@ -48,8 +52,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
 
   updateCourse() {
-    this.coursesService.updateCourse(this.course).pipe(first())
-      .subscribe(item => this.router.navigate(['courses']));
+    this.store.dispatch(updateCourse({course: this.course}));
   }
 
 }

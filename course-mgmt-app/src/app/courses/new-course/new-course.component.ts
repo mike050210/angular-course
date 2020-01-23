@@ -1,10 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Path} from '../../models/paths.model';
-import {Router} from '@angular/router';
 import {Course} from '../../models/course.model';
-import {CoursesService} from '../../services/courses.service';
-import {first, map} from 'rxjs/operators';
-import {LoadingService} from '../../services/loading.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../store/app.states';
+import {addCourse} from '../../store/courses.actions';
 
 @Component({
   selector: 'app-new-course',
@@ -20,9 +19,7 @@ export class NewCourseComponent implements OnInit {
 
   paths: Path[] = [{name: 'Courses', href: '../../courses'}, {name: 'New Course', href: ''}];
 
-  constructor(private readonly coursesService: CoursesService,
-              private readonly loadingService: LoadingService,
-              private readonly router: Router) {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -40,9 +37,7 @@ export class NewCourseComponent implements OnInit {
   }
 
   saveNewCourse() {
-    this.loadingService.startLoading();
-    this.coursesService.createCourse(this.course).pipe(first()).subscribe(() => this.loadingService.finishLoading());
-    this.router.navigate(['courses']);
+    this.store.dispatch(addCourse({course: this.course}));
   }
 
 }
