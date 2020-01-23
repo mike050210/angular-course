@@ -1,5 +1,5 @@
-import * as auth from './auth.reducers';
-import * as courses from './courses.reducers';
+import * as auth from './auth.reducer';
+import * as courses from './courses.reducer';
 
 export interface AppState {
   authState: auth.State;

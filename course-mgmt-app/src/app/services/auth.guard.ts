@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store/app.states';
@@ -10,7 +10,7 @@ import {AppState} from '../store/app.states';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private readonly router: Router, private store: Store<AppState>) {
+  constructor(private readonly router: Router, private readonly store: Store<AppState>) {
   }
 
   canActivate(
@@ -19,6 +19,7 @@ export class AuthGuard implements CanActivate {
     this.store.select('authState').pipe(map(store => store.isAuthenticated)).subscribe((value) => {
       if (value === false) {
         this.router.navigateByUrl('login');
+        return of(false);
       }
     });
 

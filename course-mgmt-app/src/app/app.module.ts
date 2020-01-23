@@ -17,8 +17,8 @@ import {LoaderComponent} from './loader/loader.component';
 import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './store/auth.effects';
 import {StoreModule} from '@ngrx/store';
-import {authReducers} from './store/auth.reducers';
-import {coursesReducers} from './store/courses.reducers';
+import {reducerFactory as authReducerFactory} from './store/auth.reducer';
+import {reducerFactory as coursesReducerFactory} from './store/courses.reducer';
 import {CoursesEffects} from './store/courses.effects';
 
 @NgModule({
@@ -37,7 +37,7 @@ import {CoursesEffects} from './store/courses.effects';
     LoginModule,
     CoursesModule,
     AppRoutingModule,
-    StoreModule.forRoot({authState: authReducers, coursesState: coursesReducers}),
+    StoreModule.forRoot({authState: authReducerFactory, coursesState: coursesReducerFactory}),
     EffectsModule.forRoot([AuthEffects, CoursesEffects]),
     HttpClientModule
   ],

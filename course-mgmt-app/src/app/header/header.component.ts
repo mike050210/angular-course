@@ -13,11 +13,11 @@ import {logout} from '../store/auth.actions';
 })
 export class HeaderComponent implements OnInit {
 
-  username$: Observable<String>;
+  username$: Observable<string>;
   isLoggedIn$: Observable<boolean>;
 
   constructor(private readonly router: Router,
-              private store: Store<AppState>) {
+              private readonly store: Store<AppState>) {
   }
 
   ngOnInit(): void {

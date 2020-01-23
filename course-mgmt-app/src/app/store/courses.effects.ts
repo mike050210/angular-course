@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {LoadingService} from '../services/loading.service';
 import {CoursesService} from '../services/courses.service';
-import {catchError, debounceTime, distinctUntilChanged, filter, finalize, first, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, filter, finalize, first, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {
   addCourse,
   addCourseSuccessful,
@@ -18,18 +18,18 @@ import {
 } from './courses.actions';
 import {Store} from '@ngrx/store';
 import {AppState} from './app.states';
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Router} from '@angular/router';
 
 @Injectable()
 export class CoursesEffects {
 
   constructor(
-    private actions$: Actions,
-    private coursesService: CoursesService,
-    private loadingService: LoadingService,
-    private store: Store<AppState>,
-    private router: Router
+    private readonly actions$: Actions,
+    private readonly coursesService: CoursesService,
+    private readonly loadingService: LoadingService,
+    private readonly store: Store<AppState>,
+    private readonly router: Router
   ) {
   }
 
@@ -37,55 +37,44 @@ export class CoursesEffects {
   courses$ = createEffect(
     () => this.actions$.pipe(
       ofType(loadCourses),
+      withLatestFrom(this.store.select('coursesState')),
       switchMap(
-        () => {
+        ([action, store]) => {
           this.loadingService.startLoading();
-
-          let countResults$: BehaviorSubject<number> = null;
-
-          this.store.select('coursesState').pipe(map(state => state.countResults))
-            .subscribe(count => {
-              countResults$ = new BehaviorSubject(count);
-            });
-
           const filter$: Observable<string> = this.store.select('coursesState').pipe(map(state => state.filter));
 
-          return combineLatest(countResults$,
-            filter$.pipe(debounceTime(300),
-              distinctUntilChanged(),
-              filter((filtering) => filtering.length === 0 || filtering.length >= 3)))
-            .pipe(
-              switchMap(([counter, filterValue]) => {
-                this.loadingService.startLoading();
-                return this.coursesService.getAllCourses(0, counter, filterValue)
-                  .pipe(tap(() => this.loadingService.finishLoading()));
-              }),
-              map(courses => loadCoursesSuccess({courses: courses})),
-              finalize(() => this.loadingService.finishLoading()),
-              catchError(err => of(courseError()))
-            );
+          return filter$.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            filter(filtering => filtering.length === 0 || filtering.length >= 3),
+            switchMap(filterValue => {
+              this.loadingService.startLoading();
+              return this.coursesService.getAllCourses(0, store.countResults, filterValue)
+                .pipe(tap(() => this.loadingService.finishLoading()));
+            }),
+            map(courses => loadCoursesSuccess({courses: courses})),
+            finalize(() => this.loadingService.finishLoading()),
+            catchError(err => of(courseError()))
+          );
         }
       )
     )
   );
 
-  @Effect({dispatch: true})
-  increaseCounter = createEffect(
+  increaseCounter = createEffect(() => createEffect(
     () => this.actions$.pipe(
       ofType(increaseCounter),
       map(() => loadCourses())
     )
-  );
+  ));
 
-  @Effect({dispatch: true})
-  filterCourses = createEffect(
+  filterCourses = createEffect(() => createEffect(
     () => this.actions$.pipe(
       ofType(filterCourses),
       map(() => loadCourses())
     )
-  );
+  ), {dispatch: false});
 
-  @Effect({dispatch: true})
   addCourse = createEffect(
     () => this.actions$.pipe(
       ofType(addCourse),
@@ -102,7 +91,6 @@ export class CoursesEffects {
     )
   );
 
-  @Effect({dispatch: true})
   addCourseSuccessful = createEffect(
     () => this.actions$.pipe(
       ofType(addCourseSuccessful),
@@ -110,7 +98,6 @@ export class CoursesEffects {
     )
   );
 
-  @Effect({dispatch: true})
   updateCourse = createEffect(
     () => this.actions$.pipe(
       ofType(updateCourse),
@@ -127,7 +114,6 @@ export class CoursesEffects {
     )
   );
 
-  @Effect({dispatch: true})
   updateCourseSuccessful = createEffect(
     () => this.actions$.pipe(
       ofType(updateCourseSuccessful),
@@ -135,7 +121,6 @@ export class CoursesEffects {
     )
   );
 
-  @Effect({dispatch: true})
   deleteCourse = createEffect(
     () => this.actions$.pipe(
       ofType(deleteCourse),
@@ -152,12 +137,18 @@ export class CoursesEffects {
     )
   );
 
-  @Effect({dispatch: false})
-  courseError = this.actions$.pipe(
+  deleteCourseSuccessful = createEffect(
+    () => this.actions$.pipe(
+      ofType(deleteCourseSuccessful),
+      map(() => loadCourses())
+    )
+  );
+
+  courseError = createEffect(() => this.actions$.pipe(
     ofType(courseError),
     tap(() => {
       this.router.navigate(['error']);
     })
-  );
+  ), {dispatch: false});
 
 }

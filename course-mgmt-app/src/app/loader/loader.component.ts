@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class LoaderComponent implements OnInit {
 
-  constructor(private loadingSvc: LoadingService) {
+  constructor(private readonly loadingSvc: LoadingService) {
   }
 
   loading$: Observable<boolean>;

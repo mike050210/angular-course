@@ -12,14 +12,13 @@ import {User} from '../models/user-login.model';
 export class AuthEffects {
 
   constructor(
-    private actions$: Actions,
-    private authService: AuthenticationService,
-    private loadingService: LoadingService,
-    private router: Router,
+    private readonly actions$: Actions,
+    private readonly authService: AuthenticationService,
+    private readonly loadingService: LoadingService,
+    private readonly router: Router,
   ) {
   }
 
-  @Effect()
   loginUser$ = createEffect(
     () => this.actions$.pipe(
       ofType(login),
@@ -35,32 +34,28 @@ export class AuthEffects {
     )
   );
 
-  @Effect({dispatch: false})
-  loginSuccess: Observable<User> = this.actions$.pipe(
+  loginSuccess$: Observable<User> = createEffect(() => this.actions$.pipe(
     ofType(loginSuccess),
     tap((user) => {
       localStorage.setItem('token', user.fakeToken);
-      localStorage.setItem('username', user.name.firstName + ' ' + user.name.lastName);
       this.router.navigate(['courses']);
     })
-  );
+  ), {dispatch: false});
 
-  @Effect({dispatch: false})
-  loginFailure: Observable<any> = this.actions$.pipe(
+  loginFailure$: Observable<any> = createEffect(() => this.actions$.pipe(
     ofType(loginFailure),
     tap((user) => {
       localStorage.setItem('token', '');
     })
-  );
+  ), {dispatch: false});
 
-  @Effect({dispatch: false})
-  logout = this.actions$.pipe(
+  logout$ = createEffect(() => this.actions$.pipe(
     ofType(logout),
     tap(() => {
       localStorage.setItem('token', '');
       this.authService.logout();
       this.router.navigate(['login']);
     })
-  );
+  ), {dispatch: false});
 
 }

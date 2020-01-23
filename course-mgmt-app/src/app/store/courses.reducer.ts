@@ -15,7 +15,7 @@ export const initialState: State = {
   filter: ''
 };
 
-const _coursesReducer = createReducer(initialState,
+const reducer = createReducer(initialState,
   on(loadCoursesSuccess, (state, action) => {
     return {...state, filteredCourses: action.courses};
   }),
@@ -27,6 +27,6 @@ const _coursesReducer = createReducer(initialState,
   }),
 );
 
-export function coursesReducers(state = initialState, action) {
-  return _coursesReducer(state, action);
+export function reducerFactory(state = initialState, action) {
+  return reducer(state, action);
 }

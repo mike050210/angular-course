@@ -27,7 +27,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   course: Course;
 
   constructor(private readonly coursesService: CoursesService,
-              private store: Store<AppState>,
+              private readonly store: Store<AppState>,
               private readonly router: Router,
               private readonly actRoute: ActivatedRoute) {
   }

@@ -19,7 +19,7 @@ export class NewCourseComponent implements OnInit {
 
   paths: Path[] = [{name: 'Courses', href: '../../courses'}, {name: 'New Course', href: ''}];
 
-  constructor(private store: Store<AppState>) {
+  constructor(private readonly store: Store<AppState>) {
   }
 
   ngOnInit(): void {

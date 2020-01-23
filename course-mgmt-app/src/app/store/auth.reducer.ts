@@ -5,30 +5,30 @@ import {User} from '../models/user-login.model';
 export interface State {
   isAuthenticated: boolean;
   user: User | null;
-  errorMessage: boolean;
+  isError: boolean;
 
 }
 
 export const initialState: State = {
   isAuthenticated: false,
   user: null,
-  errorMessage: false
+  isError: false
 };
 
-const _authReducer = createReducer(initialState,
+const reducer = createReducer(initialState,
   on(loginSuccess, (state, action) => {
-    return {...state, isAuthenticated: true, user: action, errorMessage: false};
+    return {...state, isAuthenticated: true, user: action, isError: false};
   }),
   on(loginFailure, state => {
-    return {...state, isAuthenticated: false, user: null, errorMessage: true};
+    return {...state, isAuthenticated: false, user: null, isError: true};
   }),
 
   on(logout, state => {
-    return {...state, isAuthenticated: false, user: null, errorMessage: false};
+    return {...state, isAuthenticated: false, user: null, isError: false};
   }),
 );
 
 
-export function authReducers(state = initialState, action) {
-  return _authReducer(state, action);
+export function reducerFactory(state = initialState, action) {
+  return reducer(state, action);
 }

@@ -6,7 +6,7 @@
             <h6 class="login-header">Login</h6>
         </div>
         <div class="col">
-          <label *ngIf="loginError$" class="login-error">Wrong email or password</label>
+          <label *ngIf="loginError$ | async" class="login-error">Wrong email or password</label>
         </div>
       </div>
 

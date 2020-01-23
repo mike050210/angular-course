@@ -23,7 +23,7 @@ export class CoursesComponent implements OnInit {
   readonly step = 5;
 
 
-  constructor(private store: Store<AppState>,
+  constructor(private readonly store: Store<AppState>,
               private readonly router: Router
   ) {
   }
@@ -34,7 +34,7 @@ export class CoursesComponent implements OnInit {
   }
 
   filterCourses(filter: string) {
-    this.store.dispatch(filterCourses({filter: filter}));
+    this.store.dispatch(filterCourses({filter}));
   }
 
   addNewCourse() {
@@ -51,7 +51,7 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourse(courseId: string) {
-    this.store.dispatch(deleteCourse({courseId: courseId}));
+    this.store.dispatch(deleteCourse({courseId}));
   }
 
 

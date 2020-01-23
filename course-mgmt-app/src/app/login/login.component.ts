@@ -22,7 +22,7 @@ export class LoginComponent {
 
   constructor(private readonly loadingService: LoadingService,
               private readonly router: Router,
-              private store: Store<AppState>) {
+              private readonly store: Store<AppState>) {
     this.emailLabel = 'E-Mail:';
     this.passwordLabel = 'Password:';
   }
@@ -34,6 +34,6 @@ export class LoginComponent {
       password: this.password
     }));
 
-    this.loginError$ = this.store.select('authState').pipe(map(state => state.errorMessage));
+    this.loginError$ = this.store.select('authState').pipe(map(state => state.isError));
   }
 }
