@@ -61,21 +61,21 @@ export class CoursesEffects {
     )
   );
 
-  increaseCounter = createEffect(() => createEffect(
+  increaseCounter$ = createEffect(() => createEffect(
     () => this.actions$.pipe(
       ofType(increaseCounter),
       map(() => loadCourses())
     )
   ));
 
-  filterCourses = createEffect(() => createEffect(
+  filterCourses$ = createEffect(() => createEffect(
     () => this.actions$.pipe(
       ofType(filterCourses),
       map(() => loadCourses())
     )
   ), {dispatch: false});
 
-  addCourse = createEffect(
+  addCourse$ = createEffect(
     () => this.actions$.pipe(
       ofType(addCourse),
       switchMap(
@@ -91,14 +91,14 @@ export class CoursesEffects {
     )
   );
 
-  addCourseSuccessful = createEffect(
+  addCourseSuccessful$ = createEffect(
     () => this.actions$.pipe(
       ofType(addCourseSuccessful),
       map(() => loadCourses())
     )
   );
 
-  updateCourse = createEffect(
+  updateCourse$ = createEffect(
     () => this.actions$.pipe(
       ofType(updateCourse),
       switchMap(
@@ -114,14 +114,14 @@ export class CoursesEffects {
     )
   );
 
-  updateCourseSuccessful = createEffect(
+  updateCourseSuccessful$ = createEffect(
     () => this.actions$.pipe(
       ofType(updateCourseSuccessful),
       map(() => loadCourses())
     )
   );
 
-  deleteCourse = createEffect(
+  deleteCourse$ = createEffect(
     () => this.actions$.pipe(
       ofType(deleteCourse),
       switchMap(
@@ -137,14 +137,14 @@ export class CoursesEffects {
     )
   );
 
-  deleteCourseSuccessful = createEffect(
+  deleteCourseSuccessful$ = createEffect(
     () => this.actions$.pipe(
       ofType(deleteCourseSuccessful),
       map(() => loadCourses())
     )
   );
 
-  courseError = createEffect(() => this.actions$.pipe(
+  courseError$ = createEffect(() => this.actions$.pipe(
     ofType(courseError),
     tap(() => {
       this.router.navigate(['error']);
